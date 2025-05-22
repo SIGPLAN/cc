@@ -5,6 +5,7 @@ title = "Current Continuation"
 
 [markdown]
 highlight_code = true
+smart_punctuation = true
 
 [extra]
 favicon = "favicon.ico"
