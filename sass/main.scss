@@ -20,7 +20,8 @@ a:hover {
   color: $highlight-color;
 }
 
-header {
+@mixin subtle-link {
+  // Links that are non-colorful by default.
   a:link, a:visited {
     color: inherit;
   }
@@ -29,7 +30,37 @@ header {
   }
 }
 
+header {
+  display: flex;
+  gap: 1rem;
+
+  .logo {
+    display: block;
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .overview {
+    h1 {
+      font-size: 240%;
+      margin: 0;
+      flex: 1 1 auto;
+    }
+
+    .tagline {
+      margin-top: 0.5rem;
+    }
+  }
+}
+
 footer {
   font-size: 80%;
   text-align: center;
+}
+
+article {
+  h1 {
+    @include subtle-link;
+    font-size: 160%;
+  }
 }

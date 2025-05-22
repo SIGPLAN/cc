@@ -15,11 +15,15 @@
 </head>
 <body>
   <header>
-    <nav>
+    <img class="logo" src="img/sigplan-logo.png">
+    <div class="overview">
       <h1>
         <a href="{{ get_url(path="/") }}">{{ config.title }}</a>
       </h1>
-    </nav>
+      <div class="tagline">
+        {{ config.extra.tagline }}
+      </div>
+    </div>
   </header>
   <main>
     {% block main %}

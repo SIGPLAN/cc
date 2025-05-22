@@ -9,3 +9,4 @@ highlight_code = true
 [extra]
 favicon = "favicon.ico"
 bigicon = "favicon152.png"
+tagline = "a podcast from SIGPLAN about programming languages research"
