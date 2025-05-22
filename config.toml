@@ -1,0 +1,11 @@
+base_url = "https://www.sigplan.org/cc"
+compile_sass = true
+build_search_index = false
+title = "Current Continuation"
+
+[markdown]
+highlight_code = true
+
+[extra]
+favicon = "favicon.ico"
+bigicon = "favicon152.png"
