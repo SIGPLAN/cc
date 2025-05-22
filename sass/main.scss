@@ -59,9 +59,12 @@ footer {
 }
 
 article {
+  margin: 3rem 0;
+
   h1 {
     @include subtle-link;
     font-size: 160%;
+    margin-bottom: 0;
   }
 }
 
