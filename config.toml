@@ -2,6 +2,8 @@ base_url = "https://www.sigplan.org/cc"
 compile_sass = true
 build_search_index = false
 title = "Current Continuation"
+generate_feeds = true
+author = "Aws Albarghouthi and Adrian Sampson"
 
 [markdown]
 highlight_code = true
