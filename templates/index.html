@@ -1,4 +1,12 @@
 {% extends "base.html" %}
 {% block main %}
 {{ section.content | safe }}
+{% set episodes = get_section(path="episodes/_index.md") %}
+{% for episode in episodes.pages %}
+<article>
+  <h1><a href="{{episode.permalink}}">Episode {{episode.extra.episode}}:
+    {{episode.title}}</a></h1>
+  {{ episode.summary | safe }}
+</article>
+{% endfor %}
 {% endblock main %}
