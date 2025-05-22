@@ -10,12 +10,11 @@
   <link href="{{ get_url(path="main.css", trailing_slash=false) | safe }}" rel="stylesheet">
   <link rel="alternate" type="application/rss+xml" href="{{ get_url(path="rss.xml", trailing_slash=false) | safe }}">
   <link rel="icon" href="{{ get_url(path=config.extra.favicon, trailing_slash=false) | safe }}">
-  <link rel="apple-touch-icon-precomposed" href="{{ get_url(path=config.extra.bigicon, trailing_slash=false) | safe }}">
   {% block header %}{% endblock header %}
 </head>
 <body>
   <header>
-    <img class="logo" src="img/sigplan-logo.png">
+    <img class="logo" src="{{ get_url(path=config.extra.logo, trailing_slash=false) | safe }}">
     <div class="overview">
       <h1>
         <a href="{{ get_url(path="/") }}">{{ config.title }}</a>
