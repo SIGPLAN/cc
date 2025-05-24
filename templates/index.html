@@ -1,14 +1,11 @@
 {% extends "base.html" %}
+{% import "macros.html" as macros %}
 {% block main %}
 {{ section.content | safe }}
 {% set episodes = get_section(path="episodes/_index.md") %}
 {% for episode in episodes.pages %}
 <article>
-  <h1 class="episode">
-    <a href="{{episode.permalink}}">Episode {{episode.extra.episode}}:
-      {{episode.title}}</a>
-    <time datetime="{{ episode.date }}">{{ episode.date | date(format="%B %e, %Y") }}</time>
-  </h1>
+  {{ macros::ep_title(episode=episode) }}
   {{ episode.summary | safe }}
 </article>
 {% endfor %}

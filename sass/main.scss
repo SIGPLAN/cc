@@ -57,13 +57,13 @@ header {
 footer {
   font-size: 80%;
   text-align: center;
+  color: $grayish-color;
 }
 
 article {
   margin: 3rem 0;
 
   h1 {
-    @include subtle-link;
     font-size: 160%;
     margin-bottom: 0;
   }
@@ -79,6 +79,7 @@ article {
 }
 
 h1.episode {
+  @include subtle-link;
   time {
     color: $grayish-color;
     margin-left: 0.5em;

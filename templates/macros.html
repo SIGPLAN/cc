@@ -1,0 +1,7 @@
+{% macro ep_title(episode) %}
+<h1 class="episode">
+  <a href="{{episode.permalink}}">Episode {{episode.extra.episode}}:
+    {{episode.title}}</a>
+  <time datetime="{{ episode.date }}">{{ episode.date | date(format="%B %e, %Y") }}</time>
+</h1>
+{% endmacro ep_title %}
