@@ -2,6 +2,7 @@
 
 $theme-color: #499EF8;
 $highlight-color: color.adjust($theme-color, $lightness: 30%);
+$grayish-color: color.adjust($theme-color, $saturation: -60%, $lightness: 20%);
 
 body {
   max-width: 50rem;
@@ -74,5 +75,12 @@ article {
   iframe {
     aspect-ratio: 16 / 9;
     width: 100%;
+  }
+}
+
+h1.episode {
+  time {
+    color: $grayish-color;
+    margin-left: 0.5em;
   }
 }

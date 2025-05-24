@@ -4,8 +4,11 @@
 {% set episodes = get_section(path="episodes/_index.md") %}
 {% for episode in episodes.pages %}
 <article>
-  <h1><a href="{{episode.permalink}}">Episode {{episode.extra.episode}}:
-    {{episode.title}}</a></h1>
+  <h1 class="episode">
+    <a href="{{episode.permalink}}">Episode {{episode.extra.episode}}:
+      {{episode.title}}</a>
+    <time datetime="{{ episode.date }}">{{ episode.date | date(format="%B %e, %Y") }}</time>
+  </h1>
   {{ episode.summary | safe }}
 </article>
 {% endfor %}
