@@ -19,7 +19,7 @@
       <atom:link href="{{ feed_url | safe }}" rel="self" type="application/rss+xml"/>
       <lastBuildDate>{{ last_updated | date(format="%a, %d %b %Y %H:%M:%S %z") }}</lastBuildDate>
       <itunes:type>serial</itunes:type>
-      <itunes:image href="{{ config.base_url | safe }}/{{ config.extra.logo | safe }}"/>
+      <itunes:image href="{{ config.base_url | safe }}/{{ config.extra.show_art | safe }}"/>
       <itunes:explicit>false</itunes:explicit>
       <itunes:category text="{{ config.extra.category }}" />
       <itunes:owner>

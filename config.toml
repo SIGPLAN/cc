@@ -14,6 +14,7 @@ smart_punctuation = true
 [extra]
 favicon = "favicon.ico"
 logo = "img/sigplan-logo.png"
+show_art = "img/cc-art.png"
 audio_url = "https://sigplan-ccmedia.global.ssl.fastly.net"
 category = "Science"
 email = "infodir_sigplan@acm.org"
