@@ -3,6 +3,7 @@ compile_sass = true
 build_search_index = false
 title = "Current Continuation"
 generate_feeds = true
+feed_filenames = ["rss.xml"]
 author = "Aws Albarghouthi and Adrian Sampson"
 description = "a podcast from SIGPLAN about programming languages research"
 
