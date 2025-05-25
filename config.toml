@@ -4,6 +4,7 @@ build_search_index = false
 title = "Current Continuation"
 generate_feeds = true
 author = "Aws Albarghouthi and Adrian Sampson"
+description = "a podcast from SIGPLAN about programming languages research"
 
 [markdown]
 highlight_code = true
@@ -12,5 +13,4 @@ smart_punctuation = true
 [extra]
 favicon = "favicon.ico"
 logo = "img/sigplan-logo.png"
-tagline = "a podcast from SIGPLAN about programming languages research"
-audio_url = "https://sigplan-ccmedia.global.ssl.fastly.net/"
+audio_url = "https://sigplan-ccmedia.global.ssl.fastly.net"

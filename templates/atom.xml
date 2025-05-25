@@ -19,6 +19,9 @@
     <generator uri="https://www.getzola.org/">Zola</generator>
     <updated>{{ last_updated | date(format="%+") }}</updated>
     <id>{{ feed_url | safe }}</id>
+    <itunes:type>serial</itunes:type>
+    <itunes:image href="{{ config.base_url | safe }}/{{ config.extra.logo | safe }}"/>
+    <itunes:explicit>false</itunes:explicit>
     {%- for page in pages %}
     <entry xml:lang="{{ page.lang }}">
         <title>{{ page.title }}</title>
@@ -42,9 +45,10 @@
         </author>
         {% endfor %}
         <link rel="alternate" type="text/html" href="{{ page.permalink | safe }}"/>
-        <link rel="enclosure" type="text/html" href="{{ config.extra.audio_url | safe }}{{ page.extra.audio | safe }}"/>
+        <link rel="enclosure" type="text/html" href="{{ config.extra.audio_url | safe }}/{{ page.extra.audio | safe }}"/>
         <id>{{ page.permalink | safe }}</id>
         <content type="html" xml:base="{{ page.permalink | escape_xml | safe }}">{{ page.content }}</content>
+        <itunes:episode>{{ page.extra.episode }}</itunes:episode>
     </entry>
     {%- endfor %}
 </feed>
