@@ -22,6 +22,11 @@
     <itunes:type>serial</itunes:type>
     <itunes:image href="{{ config.base_url | safe }}/{{ config.extra.logo | safe }}"/>
     <itunes:explicit>false</itunes:explicit>
+    <itunes:category text="{{ config.extra.category }}" />
+    <itunes:owner>
+        <itunes:name>{{ config.author }}</itunes:name>
+        <itunes:email>{{ config.extra.email }}</itunes:email>
+    </itunes:owner>
     {%- for page in pages %}
     <entry xml:lang="{{ page.lang }}">
         <title>{{ page.title }}</title>
