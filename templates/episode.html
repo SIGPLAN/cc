@@ -3,7 +3,13 @@
 {% block main %}
 {{ macros::ep_title(episode=page) }}
 
+{% if page.extra.audio %}
+<h2>Audio</h2>
+<audio controls src="{{ config.extra.audio_url | safe }}{{ page.extra.audio | safe }}"></audio>
+{% endif %}
+
 {% if page.extra.youtube_id %}
+<h2>Video</h2>
 <div class="video">
 <iframe
     src="https://www.youtube.com/embed/{{page.extra.youtube_id}}"

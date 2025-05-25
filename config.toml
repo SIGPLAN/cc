@@ -13,4 +13,4 @@ smart_punctuation = true
 favicon = "favicon.ico"
 logo = "img/sigplan-logo.png"
 tagline = "a podcast from SIGPLAN about programming languages research"
-audio_url = "http://sigplan-ccmedia.global.ssl.fastly.net/"
+audio_url = "https://sigplan-ccmedia.global.ssl.fastly.net/"
