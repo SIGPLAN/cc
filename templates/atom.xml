@@ -44,11 +44,7 @@
         <link rel="alternate" type="text/html" href="{{ page.permalink | safe }}"/>
         <link rel="enclosure" type="text/html" href="{{ config.extra.audio_url | safe }}{{ page.extra.audio | safe }}"/>
         <id>{{ page.permalink | safe }}</id>
-        {% if page.summary %}
-        <summary type="html">{{ page.summary }}</summary>
-        {% else %}
         <content type="html" xml:base="{{ page.permalink | escape_xml | safe }}">{{ page.content }}</content>
-        {% endif %}
     </entry>
     {%- endfor %}
 </feed>
