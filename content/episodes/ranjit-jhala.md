@@ -4,6 +4,7 @@ date = 2025-05-21
 [extra]
 episode = 1
 youtube_id = "goUZczQAfgk"
+audio = "cc01.mp3"
 +++
 In the inaugural episode of *Current Continuation*, we talk to [Prof. Ranjit Jhala](https://ranjitjhala.github.io/) of UCSD.
 Ranjit has done influential work in program verification, including Lazy Abstraction and Liquid Types! He's also incredibly nice and insightful.
