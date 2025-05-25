@@ -1,0 +1,544 @@
+# Current Continuation: Ranjit Jhala
+
+**Aws:** [00:00:00] Hello and welcome. You are on a call with Current Continuation, which is a podcast. So I'm Aws Albarghouthi and this is my colleague, Adrian Sampson. And we co edit the SIGPLAN Programming Language Perspectives blog, where, you know, the PL community contributes blog posts about all kinds of stuff.
+
+So if you haven't seen it, please check it out and maybe even contribute articles. Um, we were kind of like a got bored of text and we thought we'd change it up with, uh, with video. So we decided to interview programming language luminaries and we think it'll be a great resource for the community, both like the PL community itself and, and CS at large.
+
+So that said, our first guest today is Professor Ranjit Jhala, who is a professor at the University of California, San Diego. Uh, he received his PhD at UC Berkeley and before that he was an undergraduate student at IIT Delhi. Uh, he's made several contributions to static analysis, verification, programming language design, notably lazy abstraction and liquid types, both of which we'll, uh, we'll talk about today.[00:01:00] 
+
+Uh, he's received many accolades for his work, including the Robin Milner Young Researcher Award. So Ranjit, uh, thanks for taking the time, uh, on a Friday to talk to us. 
+
+**Ranjit:** Well, thank you very much, Aws and Adrian, this is a real pleasure. I 
+
+**Adrian:** really appreciate you agreeing to do this and be our guinea pig for the first time.
+
+**Aws:** Yeah. Yeah. We're, we're aspiring podcasters. So maybe let's, let's start at the very beginning, you know, tell us about your undergrad education. Like where'd you go to college? Why, why CS? Why not? I don't know. English. 
+
+**Ranjit:** Um, let's see. So I went to college. I went, actually, it's funny you should say why CS and not English.
+
+I'll tell you why. Um, I went to college at, uh, at IIT Delhi, which is, you know, it's one of these sort of five, well, there used to be five, but now there's many more sort of Indian engineering schools. Why CS is, you know, I had a really inspiring computer science teacher in high school. And [00:02:00] why not English is kind of, uh, you know, it's interesting because the two things this guy did, his name was Avijit Sarkar.
+
+He was really, he was just very inspiring. Um, anyway, so I, I love the subject, you know, because I, I really, this, yeah, everything this guy taught him. He was really great, but the two things he taught were CS and drama. So he was a kind of, he used to teach computer science , and he used to sort of, uh, and he was a, he was also a playwright and he would, uh, but anyway, I, I never got anywhere with the drama, but, uh, but anyway, so that, that's why, so I really, and same, I mean, you know, like with many other people, I think my dad, when I was, you know, when I was like 10 years old, um, he, he used to be, you know, I, I grew up in India and he, he, he sort of, he had a trip abroad and the thing he brought back, this was like in 1985, I wanna say.
+
+Um, this tiny little thing called, uh, Sinclair Spectrum, which had 48 kilobytes of, of, of, uh, of, of, uh, memory, right? And you sort of hook it up to your TV, and [00:03:00] Anyways, I, I guess, like, that's, that's where I caught the bug. I really sort of enjoyed learning to program, and then Um, then this teacher was, you know, really inspiring.
+
+And so then I, I got into IIT and, you know, I wanted to, um, yeah, study CS. That was pretty fun. 
+
+**Adrian:** Did you do any programming on the spectrum? 
+
+**Ranjit:** I did. You know, like many other people, the first thing, the first program I wrote, I vividly remember it was 10 print hello, 20 go to 10. And then my brothers and I would roll off our chairs.
+
+You know, once we sort of hit our note, but then we would do this thing where, you know, I mean, back in the day, you could get these like books and these books would, you know, they would just have like long source dumps, right? And then we would spend all afternoon just painstakingly typing. I didn't, at the time, I didn't know what those things meant.
+
+We were just like typing the characters in one by one, you know, two hours of that. And then we'd get to play that game for like five minutes and my mom would say, okay, that's it. That's it. Time is up. And she replied. [00:04:00] But yeah, I did do a bit of programming. Very little. Um, but yeah. 
+
+**Adrian:** Typing counts as programming, I guess.
+
+**Ranjit:** I think so. 
+
+**Adrian:** So we wanted to keep on, uh, keep on going chronologically here too. So you majored in CS. What made you want to try grad school? Like what made that seem like a good idea, despite all the obvious downsides?
+
+**Ranjit:** I was very fortunate because as an undergrad, I had a bunch of really inspiring, um, sort of professors and. Um, so I just, you know, like the, the gentleman Sanjeeva Prasad, he, he, he taught me logic. Um, you know, in my, I think it was, what do you call it? In my second year, we had to take like an intro to logic class.
+
+And yeah, he was just very charismatic and I just found the material to be interesting. And I mean, the thing I remember, he, he may, he may have forgotten this, but I remember this thing where we had an exam and there was this, you know, we'd sort of read this thing and it says, a string is [00:05:00] a map from the natural numbers to the set of characters.
+
+And I was like, say what now? You know, I mean, so, so, you know, Yeah, so I guess, you know, I saw that and then we sort of learned about computability and, you know, undecidability and all these things. I, I just didn't really feel ready to get a real job. Um, and I think the best explanation for why I went to grad school, um, was, was sort of given to me after the fact by Ben Liblit, who some of you know, and so Ben, Ben, Ben Liblit likes to say, Grad school is the snooze button for real life.
+
+And I feel that that really kind of applied to it. I just didn't feel ready quite to, you know, take on real life. And there was all this cool stuff that we were learning about. Um, and I kind of just wanted more of that. So yeah, I think that that's what that was it. I didn't have any, I, beyond that, I really didn't, you know, I had no, I had no idea what happens after grad school, uh, after you do a PhD.
+
+So I just like, just like keep doing more of the same. 
+
+**Adrian:** [00:06:00] When you started, were you pretty sure you wanted to do PL stuff? Or was it just like, let's just see what there is to offer? 
+
+**Ranjit:** PL is not something that's a very, what, what shall I say? It's not as universal. It doesn't grab everyone in the same way that say graphics does, you know, like when I was a child, it was like graphics is amazing to draw these cool 3d pictures. And then when I was an undergrad, like all my classmates, we all love, you know, graphics and image processing and you know, AI and stuff like that.
+
+But there was a very small set of people who like these, the sort of the formal, you know, like this logic class, you know, if you polled my, You know, I, there were, like, I was in a class of, if I recall, about 50 to 60 other undergraduates. They would not be speaking so gushingly about this class as I did, as, as I am, right?
+
+Um, there was this one, and then there was a formal semantics class, right? An undergrad PL class. Again, the same gentleman taught us, um, Sanjeeva Prasad, and it was lambda calculus. Yeah, so I was pretty hooked. By the time I, I finished all this, I knew I wanted to do something Kind of formal, [00:07:00] um, I also thought I might want to do like algorithms because I did enjoy complexity and algorithms and that sort of stuff too.
+
+Um, but yeah, once I got to grad school, it was, it was pretty quick. I, I mean, so I sort of like formal ish things, but I also like to program. And so to me, that was just well done. I mean, PL was, it was a very natural home. So yeah, I kind of zoomed in pretty quickly. 
+
+**Aws:** So what, what was it like, like you, I guess you, you went to Berkeley, right?
+
+So directly after undergrad and what was it like you show up in Berkeley after, after, you know, completing your undergraduate degree and then you start working with Henzinger, is that right? Thomas Henzinger. 
+
+**Ranjit:** Yeah. I started working with Tom. Tom may have forgotten this, but you know, when you, when you show up in Berkeley, I mean, so I, the thing that you're most thinking about is where am I going to live?
+
+Because it's actually, at the time it was quite, it's much harder now, but even then it was quite difficult to find a job. 
+
+**Aws:** It's either up the hill or down the hill, no? 
+
+**Ranjit:** The thing about actually like find a place and you know, there was like a [00:08:00] couple of open houses. Anyways, I was very stressed out about all of that.
+
+The first thing that Tom said to me, when I just met him, so I was like, okay, maybe I'll work with Tom, or maybe I'll meet with George Necula or Alex Aiken, you know, there were several other really fantastic people there. But the first words out of Tom's mouth were, and have you found a place to live? And I was like, Oh, my God.
+
+You know, he has really, he's touched my heart, you know, just by saying this. So, yeah, but that that's kind of, I mean, what happened is I started in my very first semester, I took a class, I think, with Tom. Um, Tom taught a model checking class and then. I took a class with George Necula on what was called automated deduction and, um, I think these, these both happened in my first semester and it wasn't clear, you know, which one I'd end up working, you know, if I was going to work with Tom or George, um, but yeah, I think, yeah, they were both fantastic, but Tom, and then, yeah, I guess my, my colleague Rupak, uh, was already working with Tom and that somehow we ended up, [00:09:00] uh, it was somewhat organic, I guess, uh, I ended up working with him pretty quickly.
+
+Okay. 
+
+**Aws:** Yeah. Yeah. So I, uh, we had, we had this question about your, your long collaboration with Rupak, you know, cause you know, I was, I was, when I was a graduate student, you know, reading the papers on software model checking, I didn't know you guys, right? Like I didn't know you on Rupak and I would see like Ranjit and Rupak, Ranjit and Rupak.
+
+So I'm just like curious how, how you both, uh, you know, like, started working together and continued working together afterwards. It feels like it's nice to have a research buddy, right? 
+
+**Ranjit:** It is fantastic to have a research buddy. If there's any people who are, you know, eventually going to go to grad school or just beyond, I cannot recommend it highly enough.
+
+That was really the highlight. Um, was how I started working with you know, I was taking this class with George and Rupak was in that class. Rupak and I are also from the same city in India, by the way, as it happens. And you know, I remember, you know, I, I only realized this sort of after the fact, but you know, we used to do kind of [00:10:00] trivia contests together when we were in high school.
+
+So he was like a year older than me. And I'd kind of forgotten this. But then I was like, wait a minute, you were on the, you know, the Calcutta boys school team, right. And so there were all these kind of extraneous connections. Um, but I think ultimately it was just that, you know, He was like a year or so older than me and he was working in Tom's group And maybe he was I mean he was literally my office mate.
+
+So he was like literally the desk next to mine was um, was Rupak's. Um, so yeah, and um, yeah, and I think Tom, I remember when, whenever it was, it was, you know, 2001 ish, um, we took this, well, actually, I remember we took this class project, right? I mentioned I took a class, I did this class project with, with Henzinger, Tom's class and George's class.
+
+We did both our projects together. Yeah, it was just a lot of fun working with him. So, um, you know, it just kind of all sort of happened quite organically after that. Um, and I can't recommend it enough because as I'm sure you and Adrian, uh, [00:11:00] have sort of seen this yourself is, you know, you have, when you have two people working on a thing, it's very easy to get for one person to get stuck.
+
+And just the other sort of other perspective is like, Oh, wait a minute. We just look at it this way. Then it's like, well, yeah. And then, you know, it's just a thousand times faster and it's just much more fun. So yeah. So that's how that happened. And, um, you know, it was, that was a really lucky, I was very fortunate that that worked out.
+
+**Aws:** We were all fortunate.
+
+**Adrian:** It sounds great. I was going to ask if Rupak is still available. I could really use a research buddy. It sounds, 
+
+**Ranjit:** yeah, it's um, and Rupak kind of knows everything, you know, so he's also you know, he had, I think his interests were like a huge superset of mine. So it just, you know, it sort of worked out quite well.
+
+**Adrian:** So we wanted to also ask about the model checking era, what Aws is referring to here. Could you just start off by telling us [00:12:00] what software model checking is? Give your own definition. 
+
+**Ranjit:** Oh yeah, uh, been a while. 
+
+**Adrian:** Feel free to say no if you don't want to. 
+
+**Ranjit:** I could, I could. Let's see, what is software I mean, hmm.
+
+I don't want to say something wrong. I'm going to do this weird thing where I'm going to look up my own paper. 
+
+**Aws:** Yeah, you've written the survey. 
+
+**Ranjit:** I did, but it was a while ago. Around 2000 or so when, when I, when, when I started grad school and, and all of this, there were, you know, these very, there were three sort of very different strands of, of work going on. So there was sort of, and these strands really are different communities. So there were the model checking people, and to the model checking people, um, a system, a program, a piece of hardware, computer system, whatever, is a state transition system. You have a bunch of states and the states have hopped from one thing to the other, right?
+
+Then, and, and in my head, so there was like Tom, right? Then there was George Necula. Um, who was kind of, you know, who's doing sort of, [00:13:00] what I'm going to say, he's like the Floyd-Hoare the program logic. He was sort of roughly in the program logic community, right? He done this proof carrying code work, which came right out of the program logic, Floyd-Hoare loop invariants, pre and post conditions, SMT solvers.
+
+And then there was Alex Aiken. And Alex Aiken was sort of roughly in the, you know, program analysis. Um, you know, he was doing the stuff where you think of maybe types or set inclusion constraints. You have sort of graph constraints describing. These were like three completely separate communities and one of the things that I mean, I like to think it happened You know much because a lot because these guys were at Berkeley and they wrote this big OSQ grant And you know, there's a lot of really well known alum from that, you know from that particular open source software quality we don't have these sort of weekly lunches where now these three areas are all like smooshed together They've they've all become a blur right in a way that was not really true in in 2000 So to answer your question Software model checking, I think, is this view where, well, you start off by, you know, the [00:14:00] hardware model, you have sort of states and transitions, and so you want to bring that same view to, to software, you have a program, and how can you sort of analyze a program if you think of, think of it as a sort of state transition graph?
+
+And really there are two ways you can do it. One is the, well, you literally sort of try to enumerate all the different states, you know, think of it as a kind of graph traversal, you know, graph search problem. Um, and I'd say SPIN and VeriSoft are two kind of notable old examples of this where they're literally just enumerating states and, and so on.
+
+And the other one is the, the style that sort of we, and you know, the SLAM and all of this came, which borrowed a lot of the ideas from Floyd Hoare logic and then abstract interpretation and static analysis, where you don't work out of one state at a time, but you try and build these sort of collections of states.
+
+And you try to explore regions of states, but still, you're trying to compute a fixed point. On this graph where you're trying to explore all the different configurations the machine can be in, right? Um, and I would say broadly speaking that characterizes how I think of as [00:15:00] as software model checking I don't know if Aws may have a more recent 
+
+**Aws:** That's exactly how I think of it 
+
+**Ranjit:** feel free to say i'm wrong, uh, it's 
+
+**Aws:** You're partially right Partial correctness 
+
+**Ranjit:** I don't know if I've ever said this story before, but there was, there was a very important moment for me.
+
+And this is when I was actually interviewing at UCSD, because I was like, okay, I thought of myself software model checking. And when I interviewed at UCSD, one of the people I met here has passed away since, but he's a very well known sort of programming languages researcher called Joseph Goguen. And Joseph Goguen said, you know, I always found model checking to be very inelegant.
+
+Because this business where you are just like enumerating states one by one, brute force, it just doesn't feel right to me. And he just made this, he wasn't, he wasn't being mean or anything. He was just like making a, you know, we were having a nice conversation that it really stuck. It really stuck with me.
+
+He's like, you know what, he's kind of right. Um, but [00:16:00] anyway, I, let me give you another of my favorite little anecdotes about, you know, this, this view about model checking and Versus a program logics is one of the biggest results in model checking over the 90s. It's a huge deal was this notion of what is called symbolic model checking, right?
+
+I also know what i'm talking about The idea here was oh you don't think of you don't think of exploring the states of one state at a time You know exploring one by one the different states You have logical formulas that represent sets of states and then you use, you know, in this particular case, suppose first BDDs and then SAT solvers to, um, to sort of let you, you know, say, okay, given this formula that represents a collection of states, what's the set of states in one clock cycle and so on and so forth, right?
+
+A lot of the 90s, I mean, at this point it's kind of obvious in retrospect, this is exactly what Floyd-Hoare logic is. It's, Floyd-Hoare logic is symbolic model checking and you're using the assertions to represent sets of states, right? And you can call it sort of weakest precondition, strongest point. They were literally the same thing, [00:17:00] right?
+
+But you're, you're sort of manipulating these sort of sets of states, um, symbolically. But I think just because these communities were, were, were most, were largely disjoint, um, a lot of these kind of connections maybe were not so obvious and explicit. 
+
+**Aws:** Yeah, that's, that's, yeah, I also felt, I mean, I guess I think I started my PhD at the time where they were mushing and everything was just like, what do I use?
+
+Like, do I write the whole interprocedural analysis papers or do I just use like, you know, the standard Hoare style interprocedural, you know, rule or the whole thing was a jumble. 
+
+**Ranjit:** Yeah. 
+
+**Aws:** Yeah. Uh, so it's interesting how things diverge, but then they kind of collapse and they'll diverge again soon. So we'll see.
+
+But you, so I wanted to ask about lazy abstraction since that was, you know, your, I guess, a big result in grad school. Uh, so like how, how did that came about? Maybe describe it, describe it for us because it's a very elegant idea. 
+
+**Ranjit:** I tell you exactly how it came about is . Um, I think Sriram Rajamani was Tom Henzinger's PhD student.[00:18:00] 
+
+And Sriram had graduated and gone off to Microsoft. Right. And they were working on SLAM. And I think at some point, maybe 2000, 2001, whenever, somewhere around then Sriram came and gave a talk at, at Berkeley. And, um, and, and Tom, you know, after the talk, Tom, we sort of gathered in Tom's office, like, that's cool, but I think we can do better.
+
+Surely there's some better, you know, you can do better than it seems like very wasteful to kind of do all this work all over again. And then we were like, Hmm, that's a good point. And then, yeah, I think we just sort of sat around trying to I think we sort of just started with this Tom's like, do you really have to like, you do all this.
+
+So the way, okay, well, let me remind a little bit, right? So the way I say SLAM works is roughly speaking, you build, you, somebody gives you a quote unquote, an abstraction of the program. So again, the program is now infinite states because you have, you know, a bunch of variables and they can take on, they're not, they're not Booleans.
+
+So they have a bunch of values. And so the big insight in SLAM [00:19:00] or with predicate abstraction was if somebody gives you a set of predicates. So just, you know, logical predicates. You can take a program and you can make it finite state because there's just finitely many combinations of those predicates, right?
+
+First one is true, second one is false, etc. So roughly speaking, I mean, I'm being very coarse here, right? With SLAM, what you would do is you would say, Okay, here are my, whatever, hundred predicates. We would take the program and you would build this sort of finite state abstraction of the program with respect to those hundred predicates.
+
+And then you would check it. Now the trouble is, you know, it's a graph search problem, and so you might end up, because this is a, it's an approximation, you might end up reaching states that you can't really reach, just because your abstraction is, is too coarse. You've lumped too many states together, you need to kind of make the states a little finer, you know, you need to split these large clumps into smaller clumps.
+
+And so in SLAM they would say, okay, now we learn, okay, we need this new predicate, and so we're going to now begin with 101 predicates and start this whole process from scratch, right? Okay. And so Tom's point was that [00:20:00] seems kind of, uh, you know, not very good to start everything over from scratch because maybe there's a whole bunch of work you did earlier.
+
+Again, we think of it as a, as a search that you're doing. Maybe there's large parts of the search that you can be sure, okay, there's nothing bad over there, so we just need to pay our attention and do any finder grain splitting on this side over here, right? Um, so yeah, I think we were just kind of, uh, noodling around this particular idea.
+
+If you, if you just think of it as a search, and you wanted to reuse parts of the work you've done before, then how would you, you know, then what would that look like? And I think from that place, the abstraction is kind of, it's basically what you'd get. I think, um, if you kind of squint at it a little bit, that this is, yeah, this is, this is roughly my recollection.
+
+**Aws:** Yeah. And then, I mean, I'm, I'm, I'm curious. I mean, then you moved on to work on, on lazy languages, right? Um, uh, uh, at some point, I guess, 
+
+**Ranjit:** yes, 
+
+**Aws:** I'm curious about, I mean, maybe philosophically about the notion of lazy, right? Like, it seems like it's good. Uh, to some extent, uh, but it [00:21:00] seems like it pops up in many different areas.
+
+Like one could argue that that nature is in itself lazy, like quantum mechanics is lazy. Like it doesn't, you know, it doesn't compute until you, you observe it or something. And then it's like, okay, now, now I'll give you what you want. Uh, it doesn't evolve until, until someone really needs the, the answer.
+
+Uh, and then we have, you know, lazy languages and we have all kinds of lazy stuff in computer science. Like, I wonder if there, there's something, uh, uh, fundamental there. Yeah. 
+
+**Ranjit:** Yeah, I mean, it's just, well, yeah, I guess it's just frugality, you know, as we like to say. It's just, yeah, I mean, it's, it's one of those things where the process of abstraction was so expensive at the time because you had to make, you know, all these theorem protocols or whatever that you just want to minimize it.
+
+I think, yeah, I did make, I'm not sure if there's anything super, it's just, it's, I guess it's an optimization that pops up in a bunch of it. Don't do stuff unless you really have to do it. I mean, it's the way I live my life in many regards. I think you really need to do this [00:22:00] voice from above. By which, I mean, my wife says yes.
+
+Have you taken out the trash already? I'm like, okay. Okay, fine. , take out the trash. Um, I, I do, I do tend to gravitate a bit towards that sort of thing. Um, I'm not, I'm not such a fan of the lazy languages, to be honest. It's, um, we want it to shifting topics. 
+
+**Aws:** It's very dangerous topic. 
+
+**Ranjit:** I'd rather not. The laziness, my default is not my cup of tea.
+
+But I like, yeah, I should pretend it's not lazy.
+
+**Adrian:** This is tangentially related, but we're talking a little bit about like, you know, the splitting and recombining of these various versions. And at least in my abstraction of your career, please tell me if I'm wrong, but the next, the next big step is about type systems that it's about, about languages with very powerful type systems, I guess.
+
+I'm always interested in when people make a change like that, that is like when you decide not to just keep on doing the same stuff from grad school. Like, was there a [00:23:00] particular, like, was there anything that happened that, like, that, um, that meant you wanted to do something different? 
+
+**Ranjit:** Well, it's, it's, first of all, I would say it is, it is to me amusing that Aws is on this, because Aws is one of the few people who has pointed out to me that, That in fact, it is the same thing.
+
+I didn't actually change. I was, do you remember this conversation from a long time ago? The liquid type is actually secretly just the same thing. But the way it happened was, I'll tell you what, I mean, I remember how I alluded to this conversation with, uh, with Joseph Goguen, right? Where, where Joseph Goguen was like, just kind of thing where you're just doing the brute force thing is, is, uh, uh, you know, it's sort of unpleasant.
+
+So, so that was that, but. To me the, the sort of wall we, it to me was actually a very organic development. It was not a big jump. Um, it's sort of, it's one of those things where after the fact it looks like a big jump just because the papers sort of were written that way. But I ended up there in a very, very kind of [00:24:00] gradual, um, so.
+
+The, the problem that we had with, say, with lazy abstraction, and I would say with all of software model checking, and I'm going to generalize with all of Floyd-Hoare logic, I just, this is my beef with Floyd-Hoare logic, is that, uh, because to me Floyd-Hoare logic is actually symbolic model checking, as I have said before, right?
+
+You're doing this thing where you're really just state, next state, and so on and so forth, is, to make an analogy that I, I like to use, it's, um, it's, It's, it's a sort of very high precision way to reason about your program, but it's a very slow way to do it if you want to sort of gather information from that sort of, from, you know, that's, that has to travel very far.
+
+Let me, let me give you a very concrete example. Imagine you have a, you know, imagine you have a data structure. It would be quite a complicated data structure. It's just a container. So you have just have a polymorphic container. Okay, it's a box or an array or whatever hash table, right?
+
+Now the trouble with things like um with with any kind of software model checking or Floyd-Hoare style [00:25:00] Imagine that you know, I have some so I have my complicated hash table library, right? Let's just let's say that I have my client of a hash table library that happens to put in, you know keys That map, I don't know, it just puts in, let's say, natural number keys.
+
+Okay, the keys are natural numbers, and let's say the values are natural numbers that are larger than the key. I don't know, it doesn't really matter. There's some, there's some property about the, the keys and the values, right, that's in this hash table. The trouble with how software model checking sort of propagates information around.
+
+So, you know, in line one, I sort of create a hash table, and in line two, I put some elements into that hash table. And then in line three, I do a bunch of stuff. And then whatever in line four, I start pulling out the values from the hash table. Let's just say right now It's in the software model checking sort of view of the world You have this very annoying thing where, well, right up at the top, you created, uh, you know, the key that the thing that you put inside the box was, let's just say, a natural number.
+
+Now, I have to take the fact that that was a natural number and [00:26:00] essentially push it through the entire hash table implementation. All the shenanigans that happen inside the hash table, you know, all of that stuff. And then it sort of pops out at the other end when I get the value out, when I do the get, right?
+
+Like, oh, there, I got a natural number back. Whereas the type system view is like, wait, it's a polymorphic hash table, you can totally short circuit all the crap that happens inside the hash table. It was an A, it was an alpha, right? You put in an alpha, you get out an alpha, and all you have to do is figure out what that alpha was when you put it in.
+
+And it's the same alpha that you're going to get out, right? So in the, in the types-y sort of view of the world, you don't have to think about the hash table at all. You have this very nice kind of compositional view about all of that code, um, which is just captured by the type signature, right, of the hash table.
+
+And so all the liquid type stuff really came about. Um, and by the way, I think of that to continue my analogy, I think of the types as a kind of mass transit. If you think of this as sort of shoving information around, I think of the type system as, you know, It's, it's, it's really [00:27:00] like a kind of mass transit and the, the, the model checking is a kind of last mile, you know, pedestrian or somebody on a bicycle or a scooter, right?
+
+Super precise, but, but kind of slow. Mass transit, you can have sort of these coarse grained blocks of information, alpha. I don't really know, was it a nat? Was it an even number? Who knows, right? It's just an alpha and I don't talk about what the exact alpha is. So anyway, all the liquid type stuff came about.
+
+Because we were sort of constantly getting frustrated with oh my god, if I have hash tables, I have linked lists I have to come up with really complicated Sort of um invariants about these and it's really hard to come up with invariants about these And lo and behold with the types people already have these really simple invariants.
+
+They're just the type signature So is there some way to kind of mash these things together? Um, so yeah, it sort of took a while Um, but ultimately that's what that's what's going on and and in the back end of all the liquid type stuff You It's actually model checking. It's, it's really, I mean, the, the way it all works out is you have the type system sort of, you know, doing this mass transit y thing.
+
+There's a system of [00:28:00] constraints, but then at a low level, the individual constraints are actually classic, just model checking constraints. And the, the somewhat surprising thing to me is, you know, when I did all this stuff with lazy abstraction, But, you know, right now in our own sort of liquid types things, we just have this really dumb solver, which does very, I would say, sort of 20th century predicate abstraction.
+
+It doesn't even do all the fancy lazy abstraction stuff. But the modern font solvers, uh, actually use the lazy abstractions. They do all this lazy, you know, they do a lot of this kind of lazy constraint solving. Um, so they're using a lot of that sort of technology from BLAST, um, in order to solve these, these, uh, quote unquote horn constraints.
+
+But, yeah, so it's, it was really a fusion of these things. 
+
+**Aws:** I wonder, like, I mean, you were the one to bring the ideas from SMT solving, software model checking to, to the languages, right? Like, do you think, You were like uniquely positioned at a point in time to do that, like the technology was right for transfer or for [00:29:00] combination or like, why didn't the languages people, for example, not, you know, study much more expressive type systems.
+
+They have, of course, but more with the automation that, you know, I 
+
+**Ranjit:** would say one of the very influential pieces of work that, you know, that sort of feeds into all of these liquid types and so on is the line of work Um, By, uh, uh, Hongwei Xi and Frank Pfenning in the late 90s. Um, so Hongwei Xi was Frank Pfenning's student at Carnegie Mellon.
+
+And so they have this system called Dependent ML, which was kind of, um, it was, you know, I guess that was while, you know, George was at Carnegie Mellon. He was doing all this PCC stuff. And so. I think the way I hear, at least George tell it, is that, you know, George went and did an internship with Greg Nelson and he's like, Whoa, this stuff is cool.
+
+Why are more people using, um, you know, they weren't called SMT solvers then, but they were, whatever, theorem provers. And then I guess Hongwei and Frank were basically all in the late 90s. So, so there was this stuff. [00:30:00] Um, I, I think, you know, I suspect it's just a cultural thing. It's, yeah, it's, as, as you said, I was just kind of exposed to this more.
+
+Um, I, I saw this, you know, as I said, in my very first semester in grad school, we built an SMT solver game, built with theorem proof, but that was the, that was a class project, you know. Um, so it was just sort of in my head and I was, you know, using this technology a lot and I just wanted to, Um, you know, see more of it, that's my sense.
+
+I suspect that in the PL world, where they of course have very fancy type systems, sort of, you know, classic dependent types, they've been, you know, the way, the way I like to think of it is, um, the underlying machinery is sort of based on unification. This is, you know, the, the, the core, you know, there's, you know, a lot of really sophisticated dependent type theories and so on, but they're all based on unification as the, as the core machinery, um, instead of these kinds of decision, instead of, you know, SMT style decision procedures.
+
+Um, so I think, yeah, that was, you know, I, I guess I was [00:31:00] really just bringing that and then this business of doing this sort of fixed point, this model checking kind of view, um, to, you know, doing this kind of inference. Uh, as it were, because without that, it was, it's kind of, it's, it's somewhat painful, uh, in my opinion.
+
+So yeah, I think it's just, I happen to be, you know, sitting at the right kind of vantage points. 
+
+**Aws:** Yeah, and, and speaking of those, like, uh, this like kind of, uh, a powerful programming language, powerful type systems, I mean, it seems like now there's, there's like a renaissance of, of, uh, you know, strong type systems, like maybe, maybe Rust is a pioneer there, at least the mainstream.
+
+But you know, there's a lot of interest in things like, I don't know, like Lean, for example, a wide interest, right? Yes. What do you think? What happened there? Like, why now? Like, what's going on? I 
+
+**Ranjit:** mean, the Lean thing is quite remarkable. I should I mean, if I alt tabbed, I have a Lean window open somewhere myself.
+
+The Lean thing is quite remarkable, because I yeah, it's it's kind of it's really exploded. [00:32:00] It's quite fantastic. I mean, yeah, I I I have no I don't have any theories I mean with Rust I also find very interesting because um, let's see. What is my what is my theory? I guess my theory is you know, again, if you go back to the 2000s ish there was this kind of view that So there was Java and C\#, right?
+
+So I remember people saying, Oh my God, Greg Morrisett told me this once. He was in grad school when Java came out and people were like, Oh my God. They were really disheartened when Java came out because they were like, What else is there left to do in programming? Because all this stuff we've been thinking about.
+
+I don't know if you've ever heard this story from Greg. I was like, What? Uh, and So there was Java and C\# and then there was this kind of backlash against Java and C\#, right, with Python and Ruby and these kind of, uh, you know, uh, dynamically typed or unityped or whatever languages and people are like, oh, static typing is dead.
+
+Everyone saw Java and JavaScript and whatnot. And then there were, uh, and then there was, [00:33:00] you know, all this, all this research on trying to sort of retrofit, you know, gradual typing and what have you. And now over the 2010s, and so essentially all the JavaScripts and what have you is, uh, Have all sort of sprouted a type system of one form or the other right like Python has like 12 Uh, so I think what happened is programs got bigger and so people just started to see and to me now the whole static dynamic ship has long sailed, you know, that's it's it's just like the debate is over so but I mean with Rust I find fascinating because it has a It has a very complicated type system.
+
+Let's just be very clear about this. In my opinion, Haskell has nothing on Rust. Okay. Uh, it's just, I mean, it's a breeze programming in Haskell. I didn't have to like go to my grad students when I got a type error in Haskell. I could fix them myself. With Rust, every so often I have to get on the horn, uh, with my student Nico.
+
+Nico, I have no idea what's happening here. Please help me. That said, what Rust has, despite its Great complexity is that they [00:34:00] have just ridiculously good error messages, you know, to the point where You can just I really don't know what the thing is, but rustc tells me I should put a star over there I'm, just gonna put a star there.
+
+I don't know what's happening. It says put an end there go put an end there Just like you just keep doing the boop boop boop and everything is great. It's like, okay, well sweet. We're done, right? Um, so the error messages are just so good. Um that I think people are You know are willing to and the other thing of course that people You know, I didn't forget it's a of course the error messages are are really good and the tooling is just fantastic But b there's a kind of very compelling value proposition, right?
+
+You do the types and you don't have garbage collection and your code runs really fast. So They've, you know, it's like, you know, it's it's harder to sell sort of types or so on correctness as this kind of nebulous There's this very nice, uh Set of slides that's doing the rounds in case you haven't seen it.
+
+Uh, Mike Dodds Uh "N things I learned working doing formal methods in industry". Mike Dodds is a researcher at Galois now So he has this nice set of [00:35:00] slides on, you know, his job is is to kind of sell formal methods and One of his things is like people need to see if you can't one of the he has this nice graph where he says you can't have your curve look like oh this is going to come out the right way um you can't have it go like flat flat flat flat flat six months nothing and then oh look massive wins after six months no you have to give people a kind of you Uh, gradual wins all along the way, right?
+
+So I think Rust really gives you that, uh, in spades. You sort of get a, you get, you get a performance post on Lean is a mystery. You know, I, I mean I will say this about Lean, it is again, really the tooling is so slick. You have no idea how easy it is to install Lean. I don't know if you've tried. It's ridiculous.
+
+You literally open up vs. Code. Create a file called bob.lean and it's like, right It's like what? Um, so it's it's really quite something. Um, and yeah, they've built up, you know I mean, for example, I have a friend who um, you know, who has a son who's at high school And the son is going to, it's just like, you know, goes to high school in [00:36:00] Oregon and he's going to go to a math camp.
+
+And he says, look, this is what they're doing in the math camp. And he's like, oh, let me see. And he's like, week one, whatever, groups, this, that, complicated thing. And then week 12, formula is mathematics and Lean. I fell off my chair. This is just like, wow. Graduation. Um, it's, it's very impressive. Um, yeah. 
+
+**Aws:** You don't leave the camp until your proofs go through.
+
+**Ranjit:** Yeah. One week. And it's, it's hard, you know what I mean? I'm trying. It's not easy. It's just, yeah.
+
+**Adrian:** It's like fun to contemplate, like, obviously there's like a long tradition of the pendulum Broadly about types swinging back and forth. Exactly. I just think it's interesting, like the, the, like the specific way it manifested this time is in several different ways.
+
+Like, like you said, there's like the typescripts of the world, but then there's also the value proposite, like the thing that you get from the hard types with Rust. And then at the very end of the spectrum, now we have Lean, which like, it's not clear, but like, is it just correlated? Is it all happening at the [00:37:00] same time for no reason?
+
+Or is it all part of something sociological? I don't know. 
+
+**Ranjit:** Right. 
+
+I think people have realized that, you know, there's, I mean, there's also probably a bit of a network effect, you know, where people realize that there's a lot of sort of knock on benefits you get with, uh, you know, just like APIs and just sort of more better documentation and so on and so forth.
+
+So, yeah, I think that's my sense. 
+
+**Adrian:** So, speaking about Rust a tiny bit, I know one of the things you've done recently is explore refinement types in the context of Rust. Could you tell us about that effort and what it's like? And if you want to, now is when we prep to you that you might want to do a demo, if you feel like it.
+
+**Ranjit:** I mean, the high level bit with, I guess, refinement types, liquid types, and all this stuff is I wanted to get to this point where the programmer is the person who is You know, who's sort of guiding the tool.
+
+I mean that to me I've Sort of given this talk a bunch of times where one of the things that I don't like about or it's not so much I don't like I [00:38:00] think we need to get beyond uh is where You have some set of people who are writing the code and then you have some people Who is somehow analyzing the code and we're going to tell you why don't you fix these seven things?
+
+Um, in my opinion, this should really be sort of happening. It should be the same person and they should be kind of fixing things as they go, right? So, I mean, what I like about sort of refinement types or liquid types is that, I mean, the hope is it just gets jammed into programming. And, and so I think that Matthias Felleisen sort of puts this nicely.
+
+You, you want the kinds of, The ways in which you are writing your specs to sort of dovetail nicely with you know How do you think about the code? It's the same as this analogy I made with the hash table, right? I don't think about sort of pushing this individual invariant I just said there was a hash table of alphas and I popped in an alpha which was an adder and I get that mad up So anyway, maybe I should just do a demo.
+
+
+## demo begins
+
+**Adrian:** At this point, Ranjit his screen and give us a short demo of programming using Flux, the system has led built that embeds refinement types into Rust. It was super impressive, but it doesn't translate well into [00:39:00] audio. So we're skipping that segment in this version of the show. If you're interested, there's a link to the video version of this episode in the show notes.
+
+
+## end demo
+
+**Aws:** Speaking of Simon Peyton Jones, you, you, you two, and a number of others, uh, released Verse, which is a new programming language. Maybe tell us about it.
+
+What's the, what's the philosophy there?
+
+**Ranjit:** So Verse is, like, mostly the brainchild of Tim Sweeney, who is the CEO of Epic Games. So Tim has been sort of thinking about Verse for decades, like literally decades. He's been thinking about it for maybe, you know, close to 20 years. And so when I started there, you know, I started working with Simon and Lennart and, um, Koen and now Jan Vitek is there.
+
+This is a bunch of really terrific people. Um, we are sort of trying to take, you know, Tim's vision of, so I guess Tim likes functional, functional languages, but he also wants all this stuff. with logic programming because in the sort of in the games world, they have a bunch of things [00:40:00] like Well, I mean the kinds of problems that show up even just in classic OO where you know You have a bunch of objects where you know A depends on B B depends on C, C depends on whatever D and then D depends all the way back on A So there's like you have this chain of four different objects each of which are pointers to each other And you, the way you would sort of initialize them in C or Java, you start off by, you know, making those pointers null, null, null, null, null, and then you do some shenanigans where you kind of, you know, one by one, go and set those pointers, right?
+
+So Tim has this view that, well, you shouldn't have to do that. You should just be able to write a bunch of equations that describe the relationship between these four objects. And then you should, you know, the language runtime should be able to just solve that thing out and, you know, fill in those slots.
+
+And that's a kind of more, you know, bulletproof way of, of getting this kind of thing right, right? So that I would say is sort of one part of the philosophy. And the second more, uh, radical part is actually Verse has, but this, we haven't, nothing has been published, but this is what we've been sort of banging our heads on [00:41:00] for, you know, well, the last year and more is that it has a very sophisticated type system.
+
+And the type system is actually one of these things where The types are actually just Verse code, so you can just like pretty much write, it's kind of like Scheme contracts, but, um, but in this kind of logic programming, uh, sort of style, and this was we sort of statically checked, and again there, um, Tim's vision, it's, uh, it's, it's quite remarkable is that, you know, he, the, the idea is that this is going to be sort of programming the multiverse.
+
+No, the metaverse. What do they call it? I should know this, right? Um, the metaverse, I think is some sort of verse, right? As the name suggests. And he really believes in sort of having, um, contracts that, so that, you know, if Adrian writes, uh, you know, some sort of mod and Aws writes a mod, then these just all get published.
+
+And then, you know, the compatibility of these more, you can't have, you can't have Adrian's mod sort of blowing up, blowing up the whole of Fortnite or blowing up the whole metaverse, right? So he wants a lot of verification. So. Anyway, that's why it [00:42:00] does this very sophisticated type system. 
+
+**Adrian:** So this may be an ignorant question because I just don't know that much about Verse. But does the contract checking, does it look refinement type y at all?
+
+That is like, does it use an SMT solver or is it, is it something different from this? 
+
+**Ranjit:** It's, um, well, I mean, right now, as I said, it's still very researchy, so it, it looks refinement type-y, as in the contracts, they really, they sort of look refinement type-y, um, but it's not, it has, it almost, and, and, I mean, the question, does it use SMT solver is, is one that is sort of actively being debated, because at some point we'll want a decision procedure, but It's not clear whether we want like a full blown SMT solver or I mean right now the closest thing, you know Whatever our little prototype sort of core calculus implementation We're just like, okay.
+
+It's not an SMT solver, but here's a little decision procedure for arithmetic Okay, we have a little congruence closure and it's starting to look a lot like an SMT solver But it doesn't at all. Look, I mean the way that it [00:43:00] works is not at all like refinement types It's a I mean, it's a bit Um, it's, it's a bit hard to, it's, it's perhaps the closest thing is to, uh, Sam, uh, Sam Tobin Hochstadt and, um, David Van Horn and their student, I think, David Nguyen, work on sort of static contract checking for, for the scheme.
+
+It's kind of closer to that in, you know, how the mechanics of, uh, of things work than the refinement types as such. Someday we will write a paper, hopefully soon.
+
+**Aws:** So maybe we can, going back to your demo, uh, and maybe taking attention from there. I mean, you, you know, you were helped by Copilot, right?
+
+Uh, as you were writing the, the dependent types. And of course, you know, now LLMs are like all the rage. Like, I wonder what do you, like, where, where are things going in your view? Like, isn't it going to make, People programming these more, you know, uh, powerful languages because it just makes it easier to write complex types and verify them, or, and or alternatively it could also stifle programming [00:44:00] language design because it's highly dependent on, on having a good corpus of training data.
+
+Like if you design a new language, um, and you, you know, and, and, and, and, and you start coding and it like, co-pilot probably won't help you as much. 
+
+**Ranjit:** I lean towards the former to be quite honest, um, because I'll tell you why. So to me, one of the, one of the big sort of stumbling blocks with these sort of fancy type systems, as you saw, I was like, I mean, I myself, I mean, I wrote the tool, I forgot the syntax, you know, it's like, Oh, which one is it curly brace or, whatever, right?
+
+And what I have found is that it's like, you know, when we write a paper you have your student or whatever, write the first draft and then you can, you know, you can correct it. And so, and you can, you know, significantly correct it or improve it. But writing the first draft is often really, really hard. And so, so the Copilot thing almost gives you, here's the first draft, like, I think you're trying to do something like this.
+
+And it might be totally wrong, But you would then, it's much easier to go and edit what Copilot gets wrong, in my experience, than to write something with a blank slate. [00:45:00] Right? And so that is one. Two is, so there's some, you know, there's a bunch of people who've been sort of, uh, trying, trying out sort of Copilot and Copilot like things.
+
+And it's surprising, they work, you know, they work quite well. You know, so I have a, But I guess it's after the review anyway, I wrote this paper recently where we took a bunch of like Liquid Haskell things Um, and this was not individual functions We just took the whole it was like a library with I don't know like 150 functions or something, right?
+
+And we just wanted to say okay fill in all the type signatures So here you saw I was going through one and each type signature depends on the next one, right? So So when I just do this thing, I guess the AI ish word is you want to say you wrote an agent that goes in and like writes the signatures and then does some backtracking search.
+
+Oh, not that one, guess the next one, right? And, and again, so, so this was Liquid Haskell. a lot of liquid, you know, a Haskell code and certainly not Liquid Haskell code, right? But we took libraries that have, that were not, so we used, I think it's called Starcoder, which is one of [00:46:00] these open source LLMs where you know exactly what it's trained on, right?
+
+And we made sure to pick libraries that were not in Starcoder's training set. And we found it does really well and actually, you know, and so, so it's not going to get the whole library. It's going to query what, it's like, okay, I'm stuck over here, I need help, right? So basically imagine it's doing, again, it's doing a kind of search through the call graph, right?
+
+Trying to guess, guess types and as it guesses, then goes to the next one, goes to the next one in my backtrack, et cetera. And basically what I mean, I'm not, don't quote me, it's not exact figures, but roughly speaking, 80 percent of the function signatures, it can kind of just guess. And so 20 percent of the time it's going to be like, Hey, I need some help over here.
+
+Right. Um, which to me is pretty good. So I'm, I'm optimistic. Maybe I'm just naturally I'm lazy and I'm an optimist. So, uh, I I'm optimistic that it'll make, you know, this kind of thing much easier because like, you know, I mean, just to pick a completely different example. Um, I want to teach this, I'm going to teach a formal semantics class in the winter, and I wanted to use Lean.
+
+So I've been sort of, [00:47:00] you know, and so first I started off, so I wanted to use this very, very nice book called Concrete Semantics by the Isabel people, Tobias Nipkow, and, and friends. So, um, and I, I want to focus more on the types and the program analysis and the semantics, but not so much on the mechanics of the theorem prover right.
+
+And so I started doing this stuff in Lean and chapter one, It would just like, forget the proof, it would guess the theorem to us. Like, okay, the next theorem you want to write down is this one. And then like, and someone's like, Oh my God, this is, this is terrible because I'm in business class. But once I got to chapter two, it was just, it was all rubbish, right?
+
+So all the predictions, once you, once you get beyond the really hello world examples, the predictions are rubbish. But every so often it's, I think what the HCI people call discoverability, where I don't know what the tactics are. And the weird thing to me, is Lean, the documentation for it for computer scientists is not, there's no Software Foundations for it, let's just say, right?
+
+So in fact, it's quite, [00:48:00] it's not, there's not such a nice learning curve, you know, and in my opinion, it's quite steep. So I'm like, well, friends, what am I supposed to do here? And Copilot often, you know, is like, well, like, it's just belching out some tactic, which is quite useful, which is then I go and look for it, you know, like, oh, what does this thing do, right?
+
+Um, so often it's completely wrong. And in fact, 90 percent of the time it's completely wrong, but that 10 percent of the time it says really helpful things that I can just, you know, as a, hey, think about blah, right? Um, and so I would say it's, it's an, it's, it's, it's been quite good. It's been. Sort of entirely positive.
+
+It's not doing my proof for me. I still have the bulk of the hard work, but it's a really good search engine. Um, 
+
+**Aws:** yeah, I mean, it's, I mean, your demo, it was pretty impressive. How, even though Flux is, I don't know, a year old and a research project was like, yeah, I know the stuff, you know, here's the signature.
+
+**Ranjit:** I mean, and sometimes it's, yeah, there was, I mean, there was a larger code base. I was once working through, there was some bit vector shenanigans, you know, bit vectors and powers of two, but the function names [00:49:00] were somewhat, and there was a family of them. Right. And so the first two, you know, it figured out, Oh, he seems to be writing.
+
+There's a, there's a one and then a two and then a four and the next function, like put an eight and then put it 16. And they were, they were the right ones. So it was, it was quite helpful. 
+
+So I, yeah, I'm, I'm somewhere in the middle. I'm not one of these that is going to like, we're not going to have programming to do, we're going to have a lot of programming.
+
+I'm very much an optimist where it's just going to make it much easier to use these kinds of tools. Um, and it's going to open the door to many of them because again, there's little Flux code out there, right? 
+
+**Adrian:** My favorite experience with, with having assistants turned on is when they, they do like a Sorcerer's Apprentice thing.
+
+Like in your example, if it just like keeps going and it's like the next one and it's like, 2024, 2048, how many of these do you want? I'll just keep doing it. 
+
+**Ranjit:** Exactly. 
+
+**Adrian:** I find that adorable. 
+
+**Ranjit:** Right. Um, but sometimes I do switch it off because it's like, okay, this is just don't, don't bug [00:50:00] me. And sometimes it just gets in the way because it's like, no, I, I, the thing over there is hurting my own thinking.
+
+So just like switch it off.
+
+**Adrian:** So we have a very philosophical question prepared for you, which I'm, I'm very curious to hear if you, if you, if you want to reject this question entirely, it's completely okay, but, um, like sometimes, I don't know, like, uh, I feel a little bit of jealousy of the theoretical computer science people because they have grand mysteries that everyone can point to and say, like, uh, this is something we can all agree is a gigantic, ponderous mystery that we all can, can , can agree is fun to think about or something. 
+
+**Ranjit:** Grand challenge. 
+
+**Adrian:** Exactly. Right, right. So like maybe the, the ur-challenge is P versus NP or something, but like, right. But I feel like it lousy with them that they have all, all kinds of these things. Right. Do you have any sense that we have those in programming languages?
+
+Like do they exist? Should they exist? Maybe we don't need them. Maybe it's like. Just not part of the structure of what, what makes PL. 
+
+**Ranjit:** I'm going to give an answer. It [00:51:00] sounds facetious, but I don't think it is. Um, because it's like, I remember once we had a faculty candidate, I can name, I can name, it's a well known person.
+
+Um, she's really nice, and she's like, so what are the big open problems in programming languages? She asked me this. It was Virginia Vassilevska, I just say, I remember, people were like, I like her very much, so we were just having a chat. I said, you know, Virginia, the big difference within PL and theory is we have no big open problems.
+
+The whole thing in programming language is to find the interesting problems. That's the, you don't have these kind of, um, because in a sense, I, I just, yeah, our job is finding and finding, finding sort of carving something out into a technical problem is like 90 percent of the work. You know what I mean? I guess it goes back to, uh, you know, say this anecdote I had about lazy abstraction where, uh, Tom is like, well, this seems like a lot of work is being done.
+
+Can't you just do less work? And, you know, it starts with this very nebulous thing, but that's, you know, that's where we sort of start with that and we turn that into [00:52:00] a problem. So I don't, you know, on the, to me, there is a fundamental, you know, if, if, if, if I, if I go to like a cocktail party or whatever, and people ask me, what is programming languages about?
+
+What do you, like, what do you guys think about? My semi facetious answer, which I've sort of put in talks now is also, Well, it's like we're doing what George Orwell, you know, we're trying to do what George Orwell wanted in 1984, right? We're trying to make it hard for you to write bad programs. This is, this is the, you know, make it hard for you to think difficult thoughts.
+
+So this to me is the fundamental problem of programming languages, right? How do you kind of linguistically syntactically, you know, distinguished bad from good in a way that lets you write all the things that you want to write and not write any of the stuff you don't want to write. Now, what you want and what you don't want is going to, you know, depend wildly depending on the domain of the circumstance, right?
+
+But, um, But that's the that's the fun thing. That's the amazing thing about programming languages. This this is like the central challenge Now if you are designing hardware what you [00:53:00] want and don't want is very different than I don't know if you are an Amazon designing language for billing contracts um, but at the end there is there's always what you want and what you don't want and we are somehow trying to coax this or capture this via syntax, right?
+
+And this, that's, it's a very fuzzy problem. It's not, it's not as crisp as P versus NP, but I think it's like a family of interesting problems, right? Um, and then, yeah, you can sort of come at it in two ways. You can come at it from the design way, where we're just going to, by construction, make it impossible for you to do the bad things.
+
+Or you sort of take the, uh, analysis point of view, where you, Well, somebody's written this and I just want to check if you did the right thing, right? I'm going to analyze it and and and and see if you kind of got it, right? But yeah, that's that's the closest I get to any um, yeah, I don't I guess I don't worry about it too much Because there's another kind of I just yeah, it's like I I think what you would want it for [00:54:00] Like, why would you want, I'm just trying to debug, like, you, you feel, you feel jealous because it's kind of a motivating thing, right?
+
+To have. 
+
+**Aws:** Right. Yeah. Yeah. It's like people are attracted to the field. It's like, oh, I want to, you know, discover this, this, this big thing about the universe or about like the nature of mathematics or the nature of computation. I mean, for me, when I was a graduate student working automated verification, for me, it was like, oh, there's this thing that's undecidable.
+
+It's impossible. And we want to get there. It's kind of like, I want to get close to the speed of light. I know I can't get there. As as close as possible. So that was kind of, uh, yeah, 
+
+**Ranjit:** exactly. I mean, we know, I mean, the theory tells you it's not doable. We sort of flying in the face of, uh, or, or as I get to quote Sriram Rajamani, when he likes to put it nicely, he says, uh, just because something is undecidable doesn't mean it ceases to become it, that it ceases to become important, you know, or it's unimportant, right.
+
+You still have to. Um, so yeah, I, I think from a motivation point of view, for me, at least. I just like, and I think this goes back again, like, the people who [00:55:00] tend to be interested in programming languages are People who really like this, you know, like the symbolic nature of, of the work, right? Just sort of revel in like, look at the symbols and the fact that these pieces all fell into place just so it's like, Oh, that's so cool.
+
+Um, but I guess it would be nice to have grand challenges to motivate sort of external or for funding or things like that, right? Um, so that I can get behind, uh, but I'm not so bothered. Like I'll give you. Like one of, I think one of the biggest results in programming languages over the last 10 years, I would say, 2013 is in one of the, just one of the coolest projects.
+
+I don't know what the biggest result, but definitely is the Halide work, which I'm sure you are very familiar with, Adrian. It's just beautiful stuff, right? Like until there was Halide, you wouldn't think about it, right? The whole thing where you separate the schedule from, it's brilliant. I mean, it's just, it's so clever.
+
+Like [00:56:00] what is the grand challenge that this fell out of? It's uh, it's unclear, right? Okay, there's this very fuzzy thing of this is desirable that is undesirable But it's really hard you express what is desirable in a kind of convenient way. Um, So yeah, I think it's it's very bottom up in my opinion the at least yeah in my view 
+
+**Adrian:** Halide is a is a great example of what you said about like the the Defining the problem as being a huge amount of the work.
+
+**Ranjit:** Exactly. 
+
+**Adrian:** I don't wanna take anything away from like the design or the compiler they made or anything, but like Right. Just sort of identifying like the, the, you know, the three forms of optimization they want to do and just, and sort of like framing it this way. That was right. That was the
+
+**Ranjit:** Exactly. You know, just framing the, exactly. 
+
+**Aws:** We can, we can maybe wrap up with, uh, with, uh, uh, uh, questions about advising and advice for graduate students. So, so first of all, I mean, everyone should watch your, your influential talk on how to give a talk, right?
+
+It's, I forgot what it's titled. It's, uh, 
+
+**Ranjit:** How to design talks. I just, I reminded myself. 
+
+**Aws:** [00:57:00] How did you come up with that recipe? And maybe what, what is it for people who haven't seen the talk? I send it to all my students. 
+
+**Ranjit:** At a high level, the recipe is, You should think about your outline for the talk. So you should think, you should start with, again, it's actually a very type directed approach.
+
+I would say it's like very much motivated by the How to Design Programs, you know, is you want to start with what is, I want to achieve some goal, which to me is, you know, I'm trying to write a function from input to output. The output is supposed to be whatever message, whatever clever idea inside, whatever it is, right?
+
+And the input is the current state of the world, right? So I'm trying to take you from current state of the world, which is my input to some output, which is here's my cunning solution and why it works. And now just like when you have to write a function, like when you want to write a compiler, it's supposed to take in source code, and it's supposed to produce an output x86.
+
+You don't do it all at once. You sort of break it up, right? Into intermediate, you get. sort of steps. You have some, you parse it up into a syntax tree and you take the syntax tree and make it an IR and so on and so forth, right? Various transforms on the IR, then finally you [00:58:00] belch it out. In the same way, when you're designing your talk, you want to think about, well, first the input and the output, and then what are these intermediate blocks along these sort of road marks along the way?
+
+And then having designed the road marks, then you think about how you get from each road mark to the next, right? From each landmark, sorry. Uh, to the next. Um, and you sort of, you know, once you're at that level, the way you sort of typically do that is you try to come up with a compelling example that sort of illustrates here you are at the current landmark, here's the next landmark, right?
+
+It sort of gradually builds up to the next landmark. Um, and then I sort of have some advice on how you, you know, what's on the individual slides. I would say the, the, the last sort of key invariant that I like, you know, I like to emphasize is that at any one point in time, the viewer, whoever's in the audience, they're looking at your screen, there should be, it should be totally obvious what they should be looking at.
+
+Like, there should be like one central point of focus, and somehow you have to design your slide, um, so it means, so that they [00:59:00] have, you know, like, there's, there's, 30 things on the, on the screen at one point, that's overwhelming and you really need to help people figure out what they should be looking at.
+
+So anyway, that's the short version. I think I Aws, um, how did I come up with this? I think I came up with this because I saw this was Maybe how I was on the one hand developing all my talks and I thought this was a good way to do it.
+
+So it was, you know, when I was sort of advising students, I think this was the common mistake that people would make is that they would, there wouldn't be these kind of central sort of landmarks along the way, right? Where, um, you know, where, Yeah, I didn't know what, like, what am I supposed to be paying attention to?
+
+Like, why are you telling me this? You know, what, what, what part of the, you know? And then finally, I was like, look, this is, it has this very kind of nice analogy to programming on the one hand, and frankly, you're writing papers on the other hand, too, you know? Like, when you're writing an introduction, again, Or when you're writing a section, you want to sort of break it up into, you know, these little pieces.
+
+One of the, back when [01:00:00] I was in grad school, my advisor was like, well, why don't you, here's the whole paper, the way you take a paper, you break it up into sections, you break each section up into sort of subsections, and then you subsection into paragraphs. And then the first line of each paragraph is like a type signature for that, for that paragraph.
+
+Roughly, it's supposed to tell you what that paragraph is about, and they should all sort of link up, right? And so I just thought it's a kind of natural progression into the, the, you know, the talk realm, as it were. And so it was just like, okay, I'm saying the same thing. Like again and again.
+
+And I had to make a talk for PLMW. I don't know. This is the one thing I can give advice on. I feel I have, uh, yeah, I feel enough, uh, convictions. Uh, yeah, speak about this. That's how it came about. 
+
+**Aws:** So do you have, like, when you, when you train your students to, to give, uh, talks, like, uh, do you, do you train them by kind of osmosis or, or by, like, with deliberate practice?
+
+Like here's the recipe, come up with a talk and let's, you know, let's analyze it or? 
+
+**Ranjit:** You know, I have to say, [01:01:00] I wish more of my students, I feel a little awkward kind of advertising my talk to my own students. So I think maybe not see it now. I can't like him and you should see, like, I did recently one of actually, uh, Loris's students gave a practice talk and said, well, I think you should see that because a lot of, at this point, I'm like, look, I have a bunch of feedback, but like 80 percent of that feedback is in those slides. So why didn't you just go and see those slides? So I don't 
+
+**Aws:** read my book, 
+
+**Adrian:** Save both of us time. 
+
+**Aws:** Yeah. 
+
+**Ranjit:** Yeah. But there, there is a, there's a fair bunch of, there is a fair bunch of iteration.
+
+Um, but I mean, for example, with my students, one of the things I tell them before they get started, I don't want to see slides. I just want to see the, I just want to see like Markdown text. I just want to see, here's what the, these are the five segments. And I just want to see like a textual, because it's much easier to iterate on just raw text.
+
+You don't want to be spending all this time fiddling around with colors and fonts and all that. Just like, tell me what the little bits of pieces are. And then once we agree on that, then you can [01:02:00] start making the slides. Um, 
+
+**Aws:** That makes a lot of sense. Yeah. Yeah. Sometimes I feel bad when students like come up with a whole deck and I'm like, actually, no.
+
+**Ranjit:** Yeah. Yeah. Because I know that's, that's happened enough times. Like, oh my gosh, you're going to have to delete all of this. So, so I'm like, yeah, don't, don't do that. Just, just show me this. And then once you have that and it's nailed down and you can sort of, you know, work on all the dependencies and so on, how complicated the examples are, then you go to town and then that's it.
+
+Then editing the slides becomes a much more local and, you know, a simple, uh, you really want to work out the global dependencies before you, uh, commit too much to the, you know, the actual rendering of the slides, in my opinion. 
+
+**Adrian:** It's very much the virtues of the waterfall development model where like the, the cost of bugs goes up later in the development.
+
+**Ranjit:** Exactly. 
+
+Exactly. So that's exactly right. It's the same, exactly the same, same, same principle at work. 
+
+**Adrian:** Well, we have a, maybe the hardest question for you that we saved for last, which is, do you have any advice for young researchers? So you can pick, pick your [01:03:00] definition of young researchers, but would, do you have anything you would like to pass on if people are entering any kind of a CS field?
+
+**Ranjit:** The facetious advice is you should not listen to and get advice from old people like me. Take or take any advice from people like me with a grain of salt. That being said, um, I would say the two things I would say are one especially if you're an undergrad, but even if you're in graduate school, you can never have learned enough math.
+
+So you should just like take more math, if you can. That's my, I always feel bad that my, this is my personal regret, is that I never understood linear algebra. It's just like, and I feel at this point, the ship has sailed. My wife tells me otherwise, she's like, no, you can still be saved. I'm like, I don't know.
+
+So I never really got linear algebra. For whatever reason, I feel bad about it. I would say take as much math as you can, um, because it's just a useful thing to do. Two, I would say you should, [01:04:00] I think, this is my theory, I mean, if you're a few people who studied psychology would sort of know this, is that the older you get, I think the more, the fewer the set of things that are interesting, that are really interesting to you.
+
+So you should try to fight this for as long as you can. So try to be as interested in as many things for as long as possible. Um, because you, yeah, don't just say, Oh, I like mumble and I don't like mumble. So just try to like as many things, uh, or as long as possible, because, you know, you never know. And three, I would say if you're doing research, you should like, I mean, I should say you should find like a Rupak like character.
+
+It's it's doing research. It's Yeah, don't worry about like credit and all of that. It's just much easier and just much more fun. It's if you're working with other people, it's just much more fun. So that's that's what I would say. Is, is these are the three things. Try to be as interested in as many things for as long as [01:05:00] you can because that just age will naturally winnow this down.
+
+So just try to, try to fight that and um, yeah, and try to just work with fun people. 
+
+**Aws:** Well, this has been incredibly fun, . 
+
+**Ranjit:** Well, yeah, it's been a real pleasure. It's been real pleasure. Thanks Aws and Adrian. Yeah, 
+
+**Aws:** yeah. It's been good. 
+
+**Adrian:** Yeah, really appreciate your taking the time. 
+
+
+

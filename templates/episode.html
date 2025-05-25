@@ -21,4 +21,9 @@
 {% endif %}
 
 {{ page.content | safe }}
+
+<h2>Transcript</h2>
+<p>
+    Read the <a href="{{ get_url(path="transcripts/" ~ page.slug ~ ".txt", trailing_slash=False) }}">episode transcript</a>.
+</p>
 {% endblock main %}
