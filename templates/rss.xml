@@ -26,6 +26,7 @@
           <itunes:name>{{ config.author }}</itunes:name>
           <itunes:email>{{ config.extra.email }}</itunes:email>
       </itunes:owner>
+      <itunes:author>{{ config.author }}</itunes:author>
       {%- for page in pages %}
       <item>
           <title>{{ page.title }}</title>
