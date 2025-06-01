@@ -1,0 +1,560 @@
+# Current Continuation: Satnam Singh
+
+**Aws:** [00:00:00] Hello everybody. You're on a call with, uh, current continuation, uh, which is a podcast. Uh, this would, this is the second episode. Uh, and we're really happy to, uh, introduce, uh, Satnam Singh. Um, he is, uh, currently a fellow at Groq.
+
+Groq is a, is an ai, uh, chip company that deploys, uh, uh, LLMs. scale and it's really, really fast. At least that's what they say on Twitter. I've never used, used it. Um, and before that he worked at Google, at, uh, at Facebook and at Microsoft. And a long time ago, he was also, uh, an academic, um, and he received his PhD, um, uh, from, from Glasgow.
+
+Um, and he works on, on really interesting stuff at the intersection of hardware and programming languages. So we're really excited to have, uh, this conversation with, uh, with Satnam. So thanks for, uh, joining us today, Satnam. Pleasure to be [00:01:00] here. Thank you for having me. Yeah. So maybe we should, uh, we should start with the beginning, right?
+
+You know, you, you've had an interesting upbringing, , so tell us about, , your, uh, your life. 
+
+**Satnam:** Well, my life started in India, in Punjab, Northwest India.
+
+And when I was one and a half, my mother and I moved to Glasgow in Scotland. So I grew up in Scotland, even though I was kind of born in India. My father had gone ahead to pave the way for us. And I grew up in a kind of a Sikh Punjabi speaking family. And I turned up at elementary school, age five, not speaking any English.
+
+So I was, uh, put into some special track for a couple of years to, to learn English before I was reintroduced to normal tracks. My, my parents only spoke Punjabi and, uh, didn't speak any English. In fact, they couldn't even read or write Punjabi because they were, both of them didn't have any, uh, any education.
+
+So it's a bit odd because in my, in my family, I was the first person that went to like elementary school, high school. undergraduate PhD [00:02:00] became a lecture or professor as you Americans call it, etc, etc, etc, etc. So that's where I kind of come from. And I got into computers at high school. In high school, I was quite interested in physics.
+
+And the physics teacher, Mr. McClure, He really took me under his wing and, uh, he, and he made me join the chess team because I was reasonably good at chess. So we, I played in chess competitions and after school he had a computer club. So this was like in the, uh, late seventies, early, early nineties. And the kind of computers that we had were things like Sinclair ZX80, ZX Spectrum, and a BBC Microcomputer, a 6 5 0 2 based computer.
+
+And I just fell in love with these computers. I couldn't, they seemed like magic. You typed in some basic, you ran it and. Things came up on the screen, uh, and it, and what captivated me was that I just couldn't understand how this could work. How is [00:03:00] it, you type these things, you run it, and some computation happened, or some string, uh, got written.
+
+And I, I just persuaded my parents to try and get me a computer, which was tough because I came from a pretty poor family. A father was a construction worker, then he'd end up in welfare, so he didn't have a lot of money. And, uh, what I did was, I convinced my parents to spend the money the government would give them to buy me a school uniform.
+
+So although I went to state school, it still had a school uniform requirement. So instead of using that money to buy a school uniform, I said, I wanted a BBC Micro A model computer and we got a free school uniform from the local charity shop. So I just spent my, just spent my teenage years writing BBC BASIC, 6502 Assembly, BCPL, uh, trying to implement wee mini compilers, mini, mini operating systems.
+
+So that's how I ended up in kind of the world of computing. And I, and then you, my only, as an immigrant, In the UK for me, my only path forward was education. I wasn't going to work in my auntie's [00:04:00] insurance company or my uncle's secondary car sales company or whatever, because we didn't have any connections to the community.
+
+So, uh, what's good about the UK was it had, uh, I had grants to support, uh, kids from poorer families. So I didn't have to pay anything for my university education or my books. I got some allowance. So both my undergraduate and my PhD were paid for by the state, which was an amazing thing about the UK government at that time, because I don't think I would have gone to, gone to university otherwise.
+
+So that's how I ended up in computing in education from a background of immigration. 
+
+**Adrian:** Satnam, do you mind if I ask you just 'cause you, you mentioned in pa in, in passing programming in, uh, 65 0 2 assembly, which, uh, of course, totally makes sense. How did you, like, how did you, where'd you find the book? Like, uh, did you check it out from the library? 
+
+**Satnam:** So on a b BBC micro computer, it comes with a user guide, the BBC Micro User Guide, and it has everything about BBC Basic. It has the schematics of the board, every chip, you know, every detail. [00:05:00] And BBC BASIC has an inline assembler.
+
+So you write BASIC and then you drop into 6502 and then you can use some of the variables from the enclosing scope from the BASIC. And then you could do a multi pass compilation by having a for loop where you compile several times to resolve the forward, backward symbols, etc. So I learned it. from the book.
+
+I did then buy more, there are some official BBC 6502 programming books, and I bought them to learn how to do more 6502 programming. But from the book, just even from the BBC basic user guide, you can learn quite, learn quite a lot.
+
+I love the fact that this computer, It came the user guide, which told you everything about the computer. It had, it had, it had the operating system's memory map. Where do you, if you want to try an A on the screen, uh, how do you do it? Well, LDA 65, that's capital A, GSR FFEE.
+
+You jump to that point, and then an A will get rendered on your, uh, on your screen. Uh, so, every kind of detail was described in this book. Or, [00:06:00] you want to create a special, uh, Of circuitry to, you know, there's a music synthesis, whatever. You could be circuit board and you connect it to the, uh, uh, to, to the special serial parallel port under the machine and it has the spec of all the wires and the voltages and the protocol, and you could code it up.
+
+And that was like an amazing thing. One thing I love is breaking the distinction hardware and software for, it's just a system. It's just an end-to-end system. And this user guide, I think, had that kind of philosophy. Is it? You have this box in front of you that computes. Here are the things you need to know about how to make it compute.
+
+And those things, they cross hardware and software. Programming 6502, how to program the Hitachi 8645 video controller, how to program the PAL Teltex chip. It was all described and it was all, all, all available to you. Uh, and I, I missed, I missed this intimate connection with the hardware that I had in the BBC Micro because today we have so many levels of virtualization, [00:07:00] abstraction between the program we write and the reality of how it executes, the reality of which would electrons go at transistor junction.
+
+**Adrian:** All these pesky operating systems and virtual memory and all this really get in the way. 
+
+**Satnam:** Yeah, and hypervisors and all kinds of things like that. Yeah, and even, and 6502 is a very simple processor. When you, when you wrote your code, you know how many cycles it would take to, uh, execute. Uh, and you had some feeling about the economics.
+
+of that execution. Today we have these ISAs for x86. Our compilers generate these x86 instructions. Those instructions are very, very, very faintly related to the actual instructions that get executed in your processor core. And how many cycles will it take to execute? Well, you have no idea about that.
+
+That's a very complicated, sophisticated thing. So, so an ISA, You know, it's now like a contract between the world of compilers and the software stack [00:08:00] and the people that implement hardware, a contract, a contract abstraction, which I think is under stress as we now have these kind of multi core processors and heterogeneous computing.
+
+And we're being forced to get performance from paths other than the scaling expected through Moore's law and the world of the world of heterogeneous computing is stressing that ISA abstraction. 
+
+**Adrian:** We were wondering also, like, you perfectly described how you got into computing in the first place and into programming.
+
+How did you decide that grad school was for you? That's not necessarily given, even for someone who. 
+
+**Satnam:** So I went to university, uh, and I majored in physics, uh, uh, which I was very interested in physics. I thought I wanted to be a physicist. I wanted to do, you know, Nuclear physics. I wanted to work at the Deutsches Elektronen Synchrotron in Hamburg.
+
+I mean, not only did I study physics in high school, I studied German because, you know, I thought I was going to end up in Hamburg. And, and I did very well at physics at my high school, but just like everyone else in my physics class, you know, in the Kelvin lecture [00:09:00] theatre at the University of Glasgow where Lord Kelvin used to give his physics lectures, uh, But everyone else was top of their class as well at high school.
+
+And now I'm realizing, hmm, I am not necessarily going to be the top of this class. And I did, I kind of did fine in physics. I got, I got pretty good scores, but I kind of had to work quite hard on it. And I kind of picked, I had to pick a third subject and I picked computing. Not, not, not expecting to. You graduate from it.
+
+This is a I don't want American term would be elective. Uh, what I observed was I got nearly 100 percent in computing and didn't require much effort. The physics. Oh, that was that was hard. So then I switched degree my second year to do a joint degree between electrical engineering, computing science and computing and electrical engineering.
+
+So I changed path, but I was really. I always thought I wanted to do a Ph. D. because a school I worked at, how do I become a nuclear physicist? So I thought I'd [00:10:00] send letters back then, you know, there was no email and the physicist that would reply to me would say things like, well, Satnam, if you want to become a physicist, the first thing you want to do is get a PhD in physics.
+
+And before that, you need to get a degree. So even at high school, I kind of knew what a PhD was before I knew what a degree was. So I kind of knew that was. my kind of path, right? I was going to do undergraduate degree and then I was going to do a PhD. And then when I went to university, I was actually really inspired by some of my professors.
+
+Some of them were just so wonderful at teaching, had such passion for the subject. Uh, I mean, I remember it was specific people like, you know, like David Watt's lectures on ADA and things like that. And I thought, that's a very cool job. That's a very cool person. I want to be like, I want to be like that.
+
+And I started to question whether I wanted to be a nuclear physicist. By that time I already decided I was doing computing. So I, I, I fell in love with the idea of being an academic and being, being [00:11:00] teaching a collegiate environment, thinking deeply about problems. I thought, yeah, that's probably, uh, that maybe that's probably for me.
+
+So I was, I was inspired by my professors. 
+
+**Aws:** And what was, what was your, your thesis work on, uh, at Glasgow? 
+
+**Satnam:** So, so, Matt, finally, your undergraduate project was about creating a functional language to program these special chips called PALs and PLAs. So they're chips which you could, uh, configure, you could download a bit stream, you could configure them to make some computation.
+
+And you have, you have, you have some general assembly of either a sum of product or product of sums. Some inverters you could put in various places of thought, and I don't know why I thought it was a good idea, but I'll just create a functional language. The problem was I created my own project and I know, 
+
+**Aws:** so you went from coding an assembly all the way to functional, uh, what was that like?
+
+**Satnam:** Well, 
+
+I, I, I mean, to me, I just view as, as a just progression of the same thing. So I thought it was necessary because I think what's missing in the world. is a diagonal. In the [00:12:00] world, we've got high level things for solving high level problems, Java, web interfaces, and low level things for tackling low level problems, assembly code C, right, for low level systems.
+
+But I think a wonderful thing to have are high level things to make you productive for doing low level tasks. So that's what I wanted. I wanted, I wanted to supercharge. I'd make myself more productive at doing all this stuff, not give up control, I still want to control the hardware that's made this economics and its performance.
+
+I just want to be more productive at, uh, at doing that. So I felt that there was some natural synergy between functions and how circuits work, right? They just seem, uh, Well, well, well matched to me, so I dunno why, but I, I kind of ha hacked up this language. I mean, I knew nothing about, really about language design, was a founder, a student, but I hack all language.
+
+I, I even remember what I call what it was. I called it pineapple for some reason, and we compile up so you could write these recursive functions and, uh, uh, uh, describe the, you know, it was kinda [00:13:00] smallish to medium size. Project blocks, and I would analyze it, and then I would generate the programming bitstream to program these PALs, PAL and PLA chips, and I kind of loved that, and I think the project went very well, and, and then I knew I'd want to do a PhD, uh, and I applied to several places with PhDs, I got rejected.
+
+From most of them, but I got two offers. One was a university of Edinburgh, uh, uh, with Robin Milner, and the other was, uh, staying at Glasgow with Mary Sheeran, who had been my final year peer architecture professor. And one reason I went to Glasgow, University of Glasgow is, I actually grew up pretty much on campus.
+
+My high school was on the university campus though, when I sat in my high school, I could see the university tower outside the, uh, outside the building. The electrical engineering department's on the same street, like two blocks, uh, uh, two blocks down. So I, I had a small view of the world, probably because of my kind of Punjabi immigrant child [00:14:00] upbringings.
+
+I just assumed that you just went to a university that happened to be on your school's campus. So I just applied to Gla–. I just applied to Gla–. I applied anywhere else for undergraduate education. And then when it came to the PhD, I was offered these, you know, I had these two options and Edinburgh, 40 miles away, seemed like A vast distance.
+
+I could not imagine going that far away from home. And I, I stayed at home when I was an undergraduate. I lived with my parents, you know, uh, uh, it was just like a 10 minute walk to school. So it's still a 10 minute walk to the university. The university is the same place my school was. So I thought about it, and then the other thing that Edinburgh was, these professors, Professor Milner, Professor Bristol, seemed amazing people, and they had this idea, they had an idea for a project for me, which was to work on a parallelizing compiler for standard ML.
+
+And that sounded pretty, that sounded pretty interesting. But he showed me where I would sit, if I were to be a PhD student, and this thing, it wasn't even really an office, it was more like a cupboard, and it already had two PhD students in it, [00:15:00] and I would be sort of crammed in between them, somewhere in this kind of gray monolith in the south of Edinburgh, where it's like Glasgow is in these beautifully converted Victorian buildings with stained glass windows, you know, spacious rooms for the PhD students.
+
+And, uh, And I missed 10 minutes of my parents. So I stayed, still stayed with my parents when I started my PhD, and I decided to do a PhD with Mary Sheeran. More fun with functional programming and, uh, hard design. So I was quite inspired by Mary's final year lectures on computer architecture, but described in a kind of more formal, symbolic, Functional kind of way.
+
+And I remember my lectures about transputers and occam. So I just loved all this synergy between a way of computing some architecture and a way of modeling and programming it. And when you seem to get a really good impedance match between the two things. So I was captivated by it, all these things that I've made, that [00:16:00] I've made a lecture about.
+
+So I signed up with Mary. I signed up with Mary instead. And I was her, I was her first PhD student. I think my life would have been quite different had I done a PhD with Robin Milner. I often wonder what that'd be like, but I'm very happy with the choice that I made and the path I took.
+
+**Adrian:** So remind us, did Lava come from the PhD work?
+
+**Satnam:** No, not at all. Lava came a lot later. It came from when I worked at Xilinx. So my PhD, where I did work in functional and modeling hardware, at that time, um, there was, uh, Miranda was around. GHC had not started. So, you know, I started my university undergraduate in 1983 for four years, and then I started my PhD in 1987.
+
+So it was pre GHC. So, so I used Miranda and I absolutely love the fact that that Miranda was an even better match for modeling hardware than this pineapple thing that I had done before. And the reason for that was lazy evaluation. I could directly describe a circuit in the language. And run it and give it some balance, [00:17:00] which I couldn't really do with other languages.
+
+And this has to do with state and loops. Because in Miranda, you could describe a state element, simply by writing a function that took a list as its input, and at the output, You, you add an element to the list, undefined, whatever, zero, and you cons it to the list so you've got an input. That has delayed that list one step in time, if you consider each element of the list as being a value in time.
+
+What a beautiful way of describing what delay means. And then, in sequential circuits, you often, you want to have a value fed back. As you know, you're like a counter, so you take the previous value, you add one to it to get a new value. Well, you just write that directly. You can have the value, the x can be both sides of the equals.
+
+And because of lazy evaluation, the right thing happens. You give it a list of some finite size, and then you just take the finite size list of the output, And you get the answer. So you have this direct kind of almost isomorphic [00:18:00] representation of this physical thing in the world with a very light and beautiful small set of abstractions.
+
+And that just seemed wonderfully compelling and kind of magical to me. I really love that. People often struggle to justify lazy evaluation because it comes with so many costs and complexities and difficulty for analysis, but when it comes to modeling things like state and feedback and digital circuits, I think it's perfect.
+
+**Aws:** And I guess that's your connection to Haskell. That's where perhaps it started. 
+
+**Satnam:** Towards the end of my PhD, I think Haskell was coming along and, uh, So the kind of lazy evaluation and, uh, the kind of list processing functions that you write in Haskell are very similar to Miranda, because Haskell is like a version, is an evolution of, uh, evolution of Miranda.
+
+So my PhD, I built up this system where you could describe, uh, circuits, uh, Using, uh, uh, Miranda, and that's, and I have multiple interpretations for circuits. Like, think of it being [00:19:00] overloaded. This is before, Miranda didn't have type classes. They were being developed by my fellow PhD student, Stephen Blott.
+
+Stephen and I were undergraduates together, uh, at Glasgow too. So Stephen worked for Wadler to do type classes, which would then, you know, find a way into Haskell. And I, I came up with some system which let me describe a circuit, a circuit graph. and have one interpretation where you simulate it, another interpretation where you could compute the critical path, the delay through it, another interpretation where it could draw itself, uh, uh, another interpretation where it could compute testability vectors by composing other non standard interpretations.
+
+So that's the topic of my thesis, non standard interpretations for circuits. So capturing what's common across Lots of different computations, abstracting that, and then instantiating it with the differences and then composing them. And that was inspired by the work I'd done this summer before at a silicon chip company called European Silicon Structures, where I was like an intern for three months.
+
+And I had to like [00:20:00] manually write these programs again, again, again. I felt like I've seen this before. This is the same pattern. And why am I rewriting the C again, again, again. And I felt that this is something that should be abstracted. So looking for these things. Okay. repeated as patterns and turning them into, uh, useful common use abstractions and then composing them hierarchically.
+
+That was the inspiration that kind of drove the, my thesis work. 
+
+**Aws:** That's very interesting. So I'm, I'm very far from hardware. So I don't have a, like a good view of what the hardware, like design languages are like. I mean, I've used Verilog in undergrad and that's like, that's, that's where I stopped. So, and you know, you're describing these very sophisticated and interesting languages.
+
+From the early nineties, late eighties. Like, what, what has happened since then? Like what, like, it seems like, 
+
+**Satnam:** There's just a tragedy in the world of hardware, the languages we have. I really, the mainstream language, hard. Honestly, I just don't think they are fit for purpose, and they have very troublesome underlying semantics, and they were [00:21:00] never designed to make hardware, designed to model, model, model hardware.
+
+Verilog is, you know, is the most commonly used language. I used VHDL a lot because I was in Europe, where VHDL was much bigger, you know, but they have similar kind of semantics. Their semantics are based on event based simulation because these languages were designed to simulate circuits, not to make circuits or create them.
+
+So they have event based simulation semantics, which is completely sequential. So this is absurd. You have a totally sequential model to try and simulate something that's inherently parallel, where every gate is running the same time as every other gate. At the same time, computer scientists are developing multi threading, uh, uh, uh, concurrent programming for programs that run on one core.
+
+So their, the model is, their [00:22:00] model is parallel concurrent and it runs on something that's inherently sequential. And the hardware people have it the other way around. So this seems totally, uh, totally mad to me. So I don't think a huge amount has really kind of changed. I mean, people are, Verilog has morphed into system Verilog, but it's hard.
+
+It still has this troublesome, you know, vet based simulation semantics. People have tried to make other languages for hardware design. I mean, I've tried to make my DSL. Lava, uh, uh, Xilinx, but it still works by compiling to Verilog. There's been great work done by the people at the company BlueSpec, that made this fantastic Haskell inspired hardware description language, which I used for one of the chips that I worked on at Google.
+
+And it's got very interesting, sophisticated types, lots of powerful abstractions, but it still works by generating Verilog. So the reality today is, if you actually make a chip or design, you can create all these terms of abstraction, But the standard kind of [00:23:00] API down to the gates is, is Verilog with its troublesome semantics and tooling and kind of sequential model of the world.
+
+So just as you're my PhD, I didn't actually get mapped in real hardware. I produced a system that would compile to VHDL, you run simulators. Then I was lucky to get a position as a lecturer. electrical engineering department at the same university. So after seven years of study, I literally moved two blocks down the same street in Oakfield Avenue, because it was just like a, like I said, adjacent to my high school.
+
+And I, and I settled into my office. And then the guy who was my manager at this ES2 company, where I worked as an intern before my PhD, uh, he'd started a new company in Edinburgh. He was a professor at Edinburgh, uh, John Gray, and he created a new company. He created these new FPGA chips he's excited about.
+
+And he comes and visits me and he sort of kicks my door in and he brings me this, this very, say exactly this, uh, FPGA board. It's like, this is a PCI card. Some of you might never have seen [00:24:00] an actual PCI card. No E in its name. And it has these, it has these very interesting, uh, FPGAs. You, you can download logic onto this kind of Lego of hardware and it will do anything you like and it works.
+
+You plug it in and it's into your memory space is a configuration state. So you can write a VC program and just by reading and writing memory locations, you could configure computations to this chip, execute them and run them. So they've made this amazing board. He said, Satnam. I, I saw your PhD thesis.
+
+Interesting work, but come on man, do something real. Here's a board, work out the program. I'll be back in three months. I expect you to have a working compiler. Storms off back to Edinburgh. So here I've given this card, I've given this challenge, because he's a real electrical engineer. He makes all this kind of, you know, Miranda Haskell stuff is kind of fine, but he wants to see something real done of it.
+
+So I tried to do it. start to develop tooling and applications which exploit these chips. In fact, you could, you could change the hardware as [00:25:00] you run. So this, and then I started to make programming abstractions for reconfigurable hardware. So imagine chips where you're swapping bits of hardware in and out, like virtual hardware, like virtual memory, except that you're doing it with hardware blocks.
+
+So I put a wee bit of a. Career for myself doing that. Mainly publishing and FPGA conferences, but try to take ideas from worlds of programming and operating systems and virtual memory. But reimagining them in a world where you could change the hardware as it's running. The hardware itself could compute.
+
+It's the next bit of hardware that is. So that's all kind of mind bending stuff and Quite a lot of the 90s, uh, FPGA research was about how to try and harness the power of this dynamic reconfiguration. Because now you can have a circuit, a virtual circuit that's much bigger than the physical limitation of the, of the chip.
+
+So that was another great forward step. I kind of owe John Gray a lot of gratitude for giving me a kick in the right direction. 
+
+**Adrian:** So about that work, so about transitioning to the FPGA world and Lava [00:26:00] eventually, I mean, there's a lot of things that are really inspiring about Lava, it's like a huge inspiration for many of us working on hardware design languages today.
+
+Something I feel like is maybe underappreciated about it that is in contrast, how few languages today have anything to say about the physical layout of circuits. That is there's a lot of really exciting work going on in our description languages and, you know, high level languages for generating hardware.
+
+Very little of it has any kind of, has in the semantics, It's something about the kind of like the physical instantiation, we're just sort of like content living in this world of like a graph of the interconnections of components or something. And I'm just curious, what your thoughts on this are in particular, like what the modern world should learn from this type of approach where you get like a direct.
+
+**Satnam:** So first I started off with a pre version of lava for programming this chip and these chips are pretty small. They don't have that many computing elements, so you have to be very careful and frugal a bit. How you lay your circuit out, and is this thing close to other things?
+
+Because you really want to control your critical path. So, out of frugality and necessity, I had to come up with a model [00:27:00] which was really a way of location. So, at Xilinx, uh, the reason that Lava got made was because we had customers. You could not fit their designs into the FPGA chips. You know, they, they picked a particular chip or particular size, that's what they could afford.
+
+And they had some design at FFT software defined radio and they couldn't quite jam it in. And, you know, the field application engineers from Xilinx, they were helping the customers. They just couldn't get the tools all worked in place and route, right? They take, they take an abstract circuit netlist, they roll dice a lot and they try and, you know, if we simulated annealing heating cooling, try and see if it would go in.
+
+And they just couldn't get it to, uh, get it to work. So it's only when people are desperate, that they go to someone else can say, right, you've got this weird other stuff. Can you help me? Because we've tried every other thing, and it has failed. We're lying on the ground bleeding. So I kind of looked at the circuits.
+
+I saw, you know, they've got regular structure. You know, this, the output of this segment of the convolver should go to input that same before and on the chip, this should be laid out. And [00:28:00] this is the wires you should use. This is the registers that should be using. This should be a rule. This should be a triangle.
+
+And so I just developed, I developed Lava to have this, a composition by abutment as a concept, but also geometry, row, call, triangle, you'll flip, et cetera. And by doing that, I was able to get the customer design to fit onto the chip. And it also looked beautiful. You could actually see the structure of the circuit that you drew in the whiteboard.
+
+You saw it on the actual chip. It fitted and it met timing. It was fast enough and you could ship it to the, to the customer. So that's very satisfying. You know, it's always great when you do research that is driven by, try to solve a problem. And it's a problem which you No other current technique could solve, right?
+
+People, uh, you're the last recourse to law, as it were, uh, from the regular engineers who would otherwise rather write in Verilog. So I think, I think I kind of learned a lot about that. It taught me the [00:29:00] power of developing high level abstractions for controlling low level issues. The low level issues is Placement, what is next to where?
+
+How long is that wire between these two blocks? What will be its critical path? Because it's the slowest, longest wire that determines the speed of the overall system. So you want to be productive and be producing a low level system. And you want to be agile because the first layer I produce didn't meet timing, or it didn't fit.
+
+So I had to experiment and try different decompositions, different layers. But because I had this tool which gave me agility, I could try five or six things in one afternoon to find the one that worked. That was a real superpower. And I could do that because I was productive, I had these high level abstractions that made me productive, that let me explore more of a design space.
+
+In an afternoon in a way that was just infeasible with VHDL or Verilog. I think that's quite exciting and I'd like to see more of that in the world, more high level abstractions so that you control low level concerns.
+
+**Aws:** It's pretty, pretty sweet. Yeah. And I wanted to ask about another, uh, paper, a yours. So, while, while, you know, preparing for [00:30:00] this, I found this, uh, paper called, uh, checking safety properties using induction, uh, and a sat solver, uh, with Mary here and, and Stålmarck. And, um, I was surprised because. You know, like, it seemed to me when I saw it, and from the date of the paper, that that was probably the first use of a SAT solver for verification?
+
+Is that, that, is that correct? 
+
+**Satnam:** Not at all. I think SAT solvers have been used for other kinds of verification. I'll give you one example. Just from my own personal experience. Yeah. Because from 
+
+**Aws:** my view it was like bounded model checking that kind of started using 
+
+**Satnam:** That's right. 
+
+**Aws:** I, before bounded model checking.
+
+**Satnam:** Yeah. So, so I think up until 
+
+**Aws:** it was unbounded too, so that was better 
+
+**Satnam:** , so. So up until a point there were bounded model checking and the, that was very much driven, right? I think with the different representation, BDDs, right? Not uh uh not SAT solvers, but I think SAT solvers did enjoy. use in other types of verification.
+
+And one thing that's, uh, uh, that's close to what I work on is logical equivalence checking, where you've got [00:31:00] two digital circuits, uh, where one is, you know, maybe a slight mutation of the other, and you want to know, are they the same, right? So logical equivalence checking, LEC, it's a very common thing in industry.
+
+And it, it can uses, it typically uses SAT solve. It still uses SAT solves. And the way that works is, is that you look at these circuit graphs, you match up where the state elements are, which is almost quite a heuristic thing. It might require, uh, some human intervention, but once you would match the state elements in the two circuits, then you could just check using a SAT solve, just check the equivalence between all the, all the registers.
+
+And if that passes, then you know that two circuits are the same. So they're a standard part of the tool flow in hardware design companies. We run them all the time in our, in our, uh, in our, in our company and company, you know, all the big companies sell them. So that was one example of how SAT solvers were used.
+
+For verification, what's perverse about that type of verification is this is a tool you buy from these hardware vendor tools. The typical way you use [00:32:00] it is you use it to make sure that the another tool you bought from the same vendor has not broken your circuit. So you, so you, so you write your, you give this your input to some tool that you're paying millions of dollars for.
+
+The tool runs, it produces, it takes one circuit graph, produces another circuit graph, but you. That token had a bug in it. How did you know it did the right thing? So then you run, you get your cables out, you run a logical code check to check for that particular instance, is the output circuit, does it still have the same meaning as the input circuit?
+
+So that's like a weird kind of checking, right? You're not checking that, A human designer made an error. You're checking that that invocation of that tool didn't make, uh, uh, didn't make an error. But I think there's lots of great uses for that kind of stuff. One thing that's top of mind for the moment is machine learning compilers and the transformations they do and possible mistakes that they might make.
+
+And there, I think, to me, I think it's a great opportunity for technologies like e-egraphs, egg to make sure like, for example, the MLIR framework, that the graph [00:33:00] that comes in to one stage of learning and the graphic is produced. They have the same semantics and you haven't introduced a, uh, an error. So these things don't prove that your compiler is correct, but they could help you prove that for one invocation to be a compiler for a specific input be perhaps there's a mistake that the compiler that you might be able to catch when you, uh, when you draw.
+
+So, yeah, so yeah, there was some use of of sat, but I think, uh, that paper I think kind of led to a mini revolution in, uh, being able to these unbounded proofs, right? And, and they, they're, I think, I think the algorithms in all the main. Uh, model checking tools, Jasper Gold, et cetera, et cetera. I, I, I, I run these tools occasionally in the use these HQ tools and occasionally, we'll, we'll check some property and it'll say proof by key induction.
+
+And as my heart misses a beat
+
+**Aws:** cool. 
+
+**Adrian:** That's awesome. 
+
+**Aws:** Um, So should we shift to talking about career, uh, Adrian? 
+
+**Adrian:** Yeah, totally. So like you are one of the academics in our community who is the, the, the benefit of having seen the industrial side for, [00:34:00] um, from many different angles is like, we were obviously just talking about Xilinx a while back.
+
+You've also been at Microsoft research and at Google. Um, and so one thing we were just curious about is like, what, what, What your sort of view on, uh, research and PL research looks like from, from that angle in particular, like how, how has your life as a sort of like research connected person change when moving from company to company?
+
+Like, were things very different going from Microsoft to Google, for example? How did you find this? We'd love to know what your life has been like going through all these things. 
+
+**Satnam:** All these transitions were very, very different. I'll give a general answer and then I'll describe a few specific transitions.
+
+I feel very fortunate to have done a kind of PL-esque, PhD in this fantastic group. I, you, I, I was in the function program group, uh, at University of Glasgow, you know, you know, started in 87, finished, 91. And that was when, uh, you know, Phil Wadler had come. Simon Peyton Jones, [00:35:00] Mary Sheeran, uh, uh, John Hughes, John Launchbury, and, you know, amazing collect of PhD students, you know, like Stephen Blott, uh, Simon Marlow, Graham Hutton, et cetera, et cetera.
+
+So that was like a very vibrant, fantastic community to be in. And I love the collegiate atmosphere. And I love all the talks and the presentations. And what it did was it gave me a toolkit, being a PL PhD student gave me a toolkit for how to think about problems, how to decompose problems, smaller problems.
+
+How to solve them, how to communicate a problem to someone else, how to read and understand information and then represent it to someone else, how to get feedback and change what, change my plan, all these skills that you learn as a PhD student, they're like an amazing toolkit. for being a problem solver that I have applicability way beyond programming languages.
+
+So it gave me like a philosophical view of [00:36:00] how to work and how to interact with people and how to solve problems. And so that was invariant. I worked in all these different places that did quite different things from, you know, designing hardware to working on Kubernetes to Android apps. I had the sensibility that is constant about how to think and work that helped me for all of these jobs.
+
+And I, whenever I give a talk, I just give one, uh, just two days at Imperial College. I really emphasize to, to the PhD students, especially PL ones, don't have a blinkered view about, uh, you only working on, PL or compilers or becoming a professor or whatever, you're being trained to be a problem solver, to, you're being trained to have this general toolkit to look at technical problems and solve them and communicate, communicate with other people and participate in a wider group of people to do great creative things.
+
+So I, and at the time I didn't understand this at all, it's only now when I stand back and look at it from a distance that I can see that that was the the case. And I feel we don't say that enough in our industry, that that's the [00:37:00] power or community That's the real thing that's happening, right, when you're doing a PhD, becoming a postdoc, becoming a PhD researcher.
+
+I mean, I started my life as an academic, and I had other academics as models, you know, to try to be like them and reproduce their success, you know. Wrote lots of papers, got grant funding, went to conferences, teaching, et cetera. But then I moved to Xilinx, uh, in California.
+
+And that was completely random. I was not planning to go. It was just something they offered me. Because, and so many of the transitions have been totally random. The randomness in this transition was as follows. My partner at the time, She was doing a PhD, and she was, uh, Susan Spence, you know, she worked in persistent Java, uh, she stayed in, you know, the computer science department at the University of Glasgow.
+
+And so Susan was offered an internship at Sun Microsystems where the, uh, she was collaborating with this team at Sun that was working on this persistent, uh, Java programming [00:38:00] language. So she was going to go for three months, I thought. Three months away from Susan. How am I going to deal with that? So I contact my Edinburgh friends that make these FPGAs and so on, by that time be acquired by this company Xilinx saying, come back to my friend John Gray.
+
+John, I need a job in, in Silicon Valley for three months so I can be with Susan. Can you, can you arrange it? And so John pulls some strings and I get to be an intern for three months at Xilinx. So I just go over, Worked for three months at Xilinx. I make some photoshop accelerator using their cards and the plug in for photoshop.
+
+So when you ran photoshop, I did Gaussian blur on FPGAs, whatever. I did my project, waved them goodbye on the way out, and they just put a job offer in my hand when I left. I think it stopped me in my tracks because I hadn't thought that, I thought I was going to be elected. I was lucky to get a permanent position, you know, after my PhD.
+
+I thought I was going to work at University of Glasgow forever. And, you know, I thought it was quite exciting working on that, uh, you know, which I, you know, use my functional DSL in Haskell to do, and I enjoyed [00:39:00] making a real, solving a real problem, building an end to end system, because there's a lot of satisfaction for me to just, you know, even writing the C\+\+ code for the plugin for Adobe Photoshop and so on, just doing the whole thing from there to, Hitting Gaussian blur, getting the image, having it transferred to the, uh, over, uh, uh, PCI to card to DRAM, having the FPGA process it and getting results back and rendering the blur results to the user.
+
+That was fantastic. And what, and I love the fact that when you do something end to end like that. You find out where all the dead bodies are buried, you find out where the real performance problems are, and I kind of like that. I like to do something concretely end to end. Well, I think as an academic, I didn't have that luxury, right?
+
+Most of my job was not to do that, and I didn't have resources to do that, and there maybe wasn't a lot, I don't know what degree of scientific value that was to do it. So I thought, okay, this is quite exciting. Maybe I should do more of this end to end stuff. Uh, uh. But I can't do it as a professor, right?
+
+I think I had to go to [00:40:00] a company. So I made the difficult decision to resign, which is very difficult because I had postdocs, I had PhD students, I had government funded projects, commitments to other people. To walk away from all of that was heart wrenching. Some of these people think they're still not talking to me.
+
+Uh, and I joined so far, and it was a big change. Yeah, I was a junior academic, you know, seven years in at that time. I worked very hard. I didn't know I have a lot of spare time and I didn't earn very much money. And I was finding it hard to pay my mortgage. I arrived in Silicon Valley and some people thought this is going to be really hard.
+
+Yeah. You're, you're in Silicon Valley. It's going to be super high stress. You were totally pressured. It was like a walk in the park. It was way less hard work and stress. Uh, I've like free evenings had to work out how to use a free evening. I didn't know what to do before. And, uh, and I kind of thrived, I think, in this kind of Xilinx lab environment where I, you know, develop lava and then went on to do lots of other things.
+
+So I love being at this intersection of solving really, you know, critical problems that people cared about. [00:41:00] But bringing ideas and thinking from the world of PL and formal verification to bear down on that problem and have a very good manager who gave me the time and space to do that. I think, I think, you know, whenever I had any kind of success somewhere, it's always Not just me, it's been things like having a badge, in that case was Bill Carter, one of the early people who founded, he kind of recognized the problem, the opportunity, and how to make me productive, then created the environment to make that happen.
+
+So those are all my great managers have been like that, and all my terrible managers. I've tried to tell me what to do and that never ends well. 
+
+**Aws:** So, speaking of terrible managers, um, you have a blog post about, um, abuse and bullying and industry. I mean, it is a kind of a taking a tangent here. Uh, I'd love, and I guess it resonated with many people.
+
+Uh, so we'd, I'd love to just, uh, tell us about it, you know? 
+
+**Satnam:** I mean, I'm very fortunate in most of my career, I've had great managers and that's a lot. If I've had any, any success, I owe a lot of it, uh, uh, to their mentorship, [00:42:00] uh, and their help.
+
+Uh, but occasionally something goes wrong and, you know, you get a manager and things don't work. I had a particular, one company had a particularly bad situation where I had a manager who I think was just maybe insecure or, I don't know why, but things didn't go well and, uh, I, tried to go through HR to try and get this resolved.
+
+And I kind of learned a lot of lessons because I think up until the point I was listening to the company mantra, which was, we're human resources. We're here to help you. We're on your side. Uh, tell us your problems, uh, where you're. We're your friends in this term, human resources. I was amazed by this.
+
+When I arrived in California in 1998, someone said, Oh, you'll have a meeting with human resources tomorrow. I said, human resource, which I'm sure you're joking. What's the real name of the problem, but no, it's called human resources. And, uh, so, so I was tricked out of thinking that they were on my side, but actually they're not, they're on the side of the company.
+
+They're the side of senior management and when it comes to conflict, uh, they're not your friends. Uh, and I, I ended up [00:43:00] leaving, leaving that particular, uh, company after quite a lot of acrimony and stress and deep depression and anxiety on, on my, on my side. On my part, uh, and I think I was really tragic because otherwise I was doing really well at a company.
+
+I think I was contributing a lot and like I enjoyed working with lots of people across the whole, uh, the, the whole company, but this one clash, it was really, and I just learned a lot. I realized I was very naive about many aspects about, uh, how things like conflict is dealt with, uh, companies. Why do people behave badly and do the things that they do, whatever.
+
+So I tried to write that up in this blog article, uh, it was a few bits of advice. And it's just snowballed. So many people email me and tell me their stories or tell me they found the bits of advice I've given, uh, uh, useful. People DM me when they see I'm in their town. I meet them for coffee and I chat to them about what's happening.
+
+So people have really found that useful. And what it tells me is there's a market need for this, right? So when I posted this right on X on [00:44:00] LinkedIn, it was like a lightning rod. It really, people kind of jumped on it, which makes me think, you know, maybe this community were not doing enough to honestly, seriously tackle, you know, abuse in work, abuse in the workplace.
+
+And it's something we should talk more about, talk more, open more about. And I think another problem is this is kind of LinkedIn culture where you just want to promote all the good things in your life, all the jobs that you got, all the things, successes you've had. You don't want to talk about your failures and things that are going wrong or having to leave a job because you couldn't get on with your manager or whatever, the incentives are not set up like that, but we would be a bit of a healthier society if we were more honest about our vulnerabilities and what has worked for us and what has not worked for us. 
+
+**Aws:** Yeah, thanks, thanks for sharing this with us and with, you know, a lot of people. 
+
+**Adrian:** Indeed, yeah. You got me, you got me fantasizing about starting a startup that's like a inverted world version of LinkedIn, when you're only allowed to post the hard things about life, only, only the failures and frustrations go to the stuff on there.
+
+**Satnam:** I'd love to publish [00:45:00] a resume which lists only the jobs I got rejected from, which will be way, way, way more impressive than what I actually got. 
+
+**Adrian:** Okay. So, uh, on a, on a similar positive note, you're, you're now at Groq, Groq with a Q with the, the, um, machine learning accelerator startup company. I was wondering if you, if you just tell us, tell, tell us what Groq is, what, what is the deal and what attracted you here?
+
+**Satnam:** So, so Groq, uh, makes silicon chips for machine learning inference. So the chips have on them, uh, parallel systolic multipliers. So they're, that's their big hammer. They can do matrix, multiply very, very quickly, very efficiently. Way more efficiently than a CPU. So a CPU doesn't have the computational intensity to hide memory access latency.
+
+So it's a latency machine. It does one thing very quickly. So if your job is you've got 17 totally different heterogeneous things to do, and you want to do each one of those things as quickly as possible, a latency machine is what you want. A [00:46:00] CPU does that. If you want to If what you wanna do is say something like, matrix, matrix, multiply, well, that's quite comp, uh, that's quite computation intensive.
+
+You have to get a lot of data right at your fingertips to, to get that matrix. Matrix multipli going. The se the, the dirty secret about GPUs is that they work by oversubscription to have, give enough computational intensity to these tens of cores to keep you busy. So why are you doing that? You overlap that with the next memory, uh, access to DDR or HBM and it arrives.
+
+And by the time you finish doing all those matrix multipliers, you've got your next one. And then you work on that. Then you hide memory access latency. That is why the leaders of Oracle and, uh, uh, Twitter and so on are going to NVIDIA, right? Uh, begging for, uh, uh, uh, uh, beg the GPUs. We have a slightly different.
+
+set up. So our chips, we've got, we've got, uh, fine grained parallel multipliers, but we've also got lots of SRAM on our chip. [00:47:00] 88 independent banks of SRAM, all of which you can access in one clock cycle. So phenomenal amounts of memory bandwidth. And we have a deterministic architecture.
+
+When you compile a model onto a chip, you know on every clock cycle, what instructions will execute. That's like a mind bending thing. When you compile a model, it produces an assembly file, the labels on the assembly instructions, the clock cycle that that instruction will execute in. Mind bending, right?
+
+Almost nothing else has this property. And that's really, it helps us, uh, generate really efficient implementations of machine learning models. It helps us compose the systems together to form big systems with predictable behavior and performance. So it's this co location of this memory. With the, uh, compute elements, it gives an advantage because the key thing that people care about today are transformers.
+
+Transformers ha having them decoders. For example, Llama 3 70 B has a decoders, which are all stacked next to each other inside of decoders. The [00:48:00] computation, uh, uh, uh, computational element. is attention. Attention involves multiplying some vectors, multiplying some big matrices. And there's an optimization called the KV cache optimization, which, which in this case, turns the, these transform computations from being matrix, matrix.
+
+Now that is, memory bound, it converts it from matrix matrix to matrix vector. Matrix vector is compute bound. Now the GPUs are not in a good situation anymore because they don't have the computation intensity to hide the access to off chip, uh, memory.
+
+But we, we have the, we have the KV cache there. It's in, it's in the SRAM. Nothing's going to go over a chip or a pin or a memory hierarchy to get to that data. So we'll, our co location of compute with data makes us a great match. for compute bound computations. And that's why these things like Llama3 and Gemma and [00:49:00] Mistral really go fast on a chip, right?
+
+They have a very low latency, a high throughput. So that's the kind of special thing about a chip. We can't get the whole KVCache onto one of our chips. But what we do is we break the KVCache up. across many, many, many chips and nodes and multiple racks of a system. Uh, but because of our determinism, we still get good composability, you know, low latency, very good throughput.
+
+So that's kind of the story of our company and why we're kind of doing well. So I mean, the chip design company, like I worked, I worked in design, the second chip, which I think is about to be about to announce. Sadly, in SystemVerilog, I couldn't get away with using, uh, Lava and then I worked on, you know, it's formal verification and some other aspects of it and some aspects of the compiler as well.
+
+It's very exciting. It's very exciting. So again, being able to work across the hardware software, uh, boundary, I think is super exciting. And it reminds me a little bit of the 6502 because we're back to a world where, you know, cycle by cycle, what's going to happen. And you try and exploit that, that property for [00:50:00] various kinds of optimizations.
+
+**Aws:** It's been full circle for you. 
+
+**Adrian:** So you mentioned it, Satnam, I can't help but ask, it makes total sense, like a real chip company, obviously SystemVerilog is going to be like the go to choices, but in, in the U. S. at least, but how do you find the attitudes being in a chip company towards the idea of new hardware languages?
+
+Is everyone like, Just fine with Verilog, everything's fine, of course, or like, it's driving. 
+
+**Satnam:** It's very, it's very hostile. So I've worked in two machine learning chips, uh, in a very, in a very different way. I worked on one at Google, and, but that was a project which from day one, people decided we're going to use BlueSpec, which is, you know, this Haskell variant hard description language.
+
+And they hired people to, this is the deal, this is BlueSpec. We only hired people a new Bluespec or were Haskell people we could repurpose as Bluespec or C\+\+ people that we could brainwash into being Haskell people. We then we turned them into Bluespec people. Uh, and that worked incredibly well, that we were a very small team and we got built a working chip in a small amount of time.
+
+I came back working first time and that was fabulous. It was, [00:51:00] it was v very, very, very. rapid, quick production of a working chip. And I think we could do that again. I think I know of other people that are trying to do that again. But in Groq, for whatever reason, the people who are in control of the hardware wanted to use SystemVerilog because hardware engineers are very, very, very suspicious of abstraction, right?
+
+And they're very, very risk averse because it's a very risky business to make, uh, a chip. So for example, even like having records, record types, and interfacing reports, and you go, right, we can't have record types because it might cost us some silicon, or it might slow things down, or, you know, I don't know what's happening with these records.
+
+No, no, no. It's a compile time abstraction. They have no cost whatsoever. But they still don't believe you. Right? So if you can't have a record type in the port with yourself, because doing dependent type, polymorphic, blah, blah, blah, effect handler, blah, [00:52:00] blah, blah. Really, they're going to call security and take your So that's, I mean, that's a shame, you know, but if I could do my own hardware company, I, uh, I would force people to use a more civilized hard description language, either BlueSpec or, you know, something, or a DSL that we make in some other language like Haskell or OCaml or something like that.
+
+And then I would hire the right engineers. I think, I'm one of the, I think, I'm not sure that the best way to design a chip. Is to hire people who are normal chip designers who know SystemVerilog. I think the best way we make a chip is to hire the best pl people, you know, uh, and retrain them how, in how to do digital design.
+
+We did in the first chip company worked at, we, we actually did quite a bit of that, and it reminds me of a, a trick a friend of mine played, uh, Ian Pratt. He formed this company called XenSource. They went to do, you know, hypervisors and he needed, he was in Cambridge and he needed the cleverest programmers he could find.
+
+And this was his algorithm. He advertised in the Cambridge and London area for OCaml [00:53:00] programmers. So people came and interviewed OCaml code and stuff like that. And then when he got hired, they had to write this low level C code. I'm not a C programmer. You're a very good OCaml programmer. I'm sure you could pick up C.
+
+You'd be good at it. And because they were just brilliant programmers. They were just very creative, brilliant people. And so that was his bait and switch trick. The way to get good C programmers was to hire good OCaml programmers. So I think there is something to be said for that. 
+
+**Aws:** So flipping the question here, like, are there problems that you see in, you know, your, your chip design work where you're like, Oh, you know, I wish the PL community worked on this.
+
+Like maybe, like maybe it's, you've changed your views on what languages should look like or other tools, like static analysis. 
+
+**Satnam:** I do have, I do actually. So when you do a real chip, uh, you have every level of abstraction, you have like a different view. of the hierarchical decomposition of the chip, right? So when you are at the highest level when you do logic design, you have got the hierarchical view of [00:54:00] your chip, the top level block, the sub blocks, the other block, and how they're all connected and wired, right?
+
+And if you're a software engineer, I mean, that, that, that hierarchical decomposition persists all the way to You know, where the machine code is generated, modulo, you know, cross boundary code optimization, uh, cross module code optimization. Chips are not like that at all, because in the real chip, you also have power, wires that distribute power, you know, uh, uh, power and ground, wires that distribute a clock, multiple clocks, wires that distribute, uh, uh, uh, enable signals and so on, and so you, you, uh, when it comes to doing the physical design, You have a quite a different hierarchical decomposition, which, which, which cares about how these global wires are fed through a chip and how things are laid out physically on the chip and organized.
+
+So that means that the RTL code that you, that the logical design engineers, right, they have this illusion of what the hierarchy is. The actual Hierarchy organization of what gets [00:55:00] turned into gate is very, very different. Uh, from that and the design process is sequential. You have to do logic design and freeze it.
+
+Then you, you, you, then you do these other verification or physical design things and, and then if you want, then it's very hard to go back and make a change if you want to because probably somebody manually or prove wrong some tools, mutated and reorganized. Your desi, your design. You've kind of lost the link right from the original code.
+
+It'd be great if we could have programming language support for describing. Uh, different types of hierarchical decomposition and keeping them in check, right, in sync. So you can then go forward and backwards, uh, between them to give you, you know, it's the one program, it's the one circuit, but you want to have different views of it.
+
+So I think that'd be cool. I don't know anything that does that. 
+
+**Adrian:** That would be incredibly cool. I can't help but note. It sounds really hard to do in the current landscape of hardware tools that are closed source and extremely expensive. 
+
+**Satnam:** It's 
+
+**Adrian:** like something's got to shift to sort of like let academics get like the access to levels [00:56:00] of abstractions they need to do.
+
+**Satnam:** I'm a big fan of the people that do, you know, Verilator, the people that do YosysHQ. So the formal verification work that we do, our company uses the YosysHQ tools, you know, which are then, you know, based on Verilator and Z3 and CBC. I mean, really because we can't afford Jasper Gold, the heavyweight industry standard, uh, uh, to, but I'm quite impressed by what they do.
+
+And I think if that ecosystem could get more traction, more support from other companies or universities, I think it's great stuff that could be, uh, uh, I think it's great stuff, uh, that could, that could happen, uh, and there's, you know, there's various, there's various research groups around the world that do great things, like yours, great stuff happening, I think, uh, uh, at, um, at Cambridge and Tobias Grosser's group, like, fantastic stuff, like Lean MLIR.
+
+Two, two worlds that were previously separate in my mind, you know, clashing, uh, uh, clashing together. So if there's some way to like coordinate all these things into kind of like a wider master vision of [00:57:00] how the world of chip design could be different, I think that would be, I think that there really is an opportunity indeed there because, because nobody really likes what they have at the moment.
+
+Like, you know, The real hardware engineers refuse to use any of these other tools, but also hate the tools that they have.
+
+**Adrian:** Yeah, it's kind of bleak when you put it that way, I guess. 
+
+**Satnam:** I mean, another strange transition I made was, I mean, I think the transition from University of Glasgow to Xilinx was, It changed one axis. I went from academia to industry, but it kept another axis constant because I joined the new from Xilinx Labs, so I still wrote papers, went to conferences, I was in a kind of program committee, so I still kind of behave a bit like a researcher, applied researcher.
+
+But the most stark change I made was when I left Microsoft Research Cambridge, where I very much behaved like a researcher. My job was to be Satnam, which was a very nice job to have, I think I'm good at that, to joining Google in Silicon Valley, where I was just a software engineer, and I had to write code for distributed systems, and [00:58:00] it was a big shock.
+
+I learned by then that I could not code. Even though I'd be coding my entire life and I'd written, I know millions of lines of code or whatever, I'd never had to write code as a professional software engineer for a production project with deadlines and so on. So the whole process of code review and everything, that was all kind of like new for me.
+
+I'd never, in my research projects, I never had to do that. So yeah, I had this fantastic tl, Daniel Spoonhower, uh. A PL person who did his PhD with Bob Harper at CMU and, uh, I'd had my peers all half my age and I learned from they taught me how to become a professional software engineer. So very humiliating process.
+
+But I'm very thankful and grateful for it. Uh, I think I went on to be, you know, a pretty decent Google engineer. And then cumulatively writing and working, being one of the early people in Kubernetes, which is bizarrely the most successful thing I've done in my entire, uh, entire career, utterly unrepresentative of [00:59:00] everything else, uh, I've done.
+
+So that was a. difficult journey, the most stark, right? Because all the bits kind of flipped, right? I went from a research world to production, DevOps, or with a pager. So that was a difficult transition. 
+
+**Aws:** You have moments where you were like, Oh my God, what have I done? Like, 
+
+**Satnam:** Yeah, absolutely. Except for, well, before I, I decided what I was going to do.
+
+I weren't saying what projects are good to do. And I took my time to do, I could write in Haskell or F sharp Whatever. And I went, you know, I was including my destiny and I, uh, and I wrote my own code. I didn't have to have my code reviewed. I just, you know, it's like research code at MSR. Could you check it in, uh, to Getting four lines of code checked could take a week.
+
+And I thought, what have I done here? This is, but I, I, I stuck with it. Uh, and, uh, it was great. I think I learned a lot. And then, uh, you know, and I, uh, eventually I loved being. I mean, I don't work at Google anymore. I've worked for Google twice so [01:00:00] far. Uh, I enjoy being a Google engineer and, uh, I identify, even though I don't work at Google, I identify being a Google engineer, other Google engineers.
+
+It was a very useful experience and taught me much about software and how to write software. In a social manner, in a way that's kind of durable, that can be evolved, that's reliable, uh, that's scalable, things I've never really had to do before. And those turned out to be like very useful kind of life skills.
+
+I'm a 58 year old man, I'm still writing code and design circuits every day. for a living. I think if I had not been through that process, uh, I'd have, I'd probably just be a VP growing boxes and arrows writing documents. 
+
+**Aws:** So, so we wanted, uh, since, you've been in the industry for a while, but you've kept ties with, with academia.
+
+I see like in your CV, like every once in a while, you know, you, you, you do a visiting lecture, a gig, or teach a course, something like that. What, what attracts you to doing that? It's, it's way more work. 
+
+**Satnam:** I always love teaching. You know, at the beginning of this, uh, podcast, I talked about how inspired I felt by my professors and [01:01:00] how they taught, how amazing that was.
+
+So I've always wanted to be like that as well. So, so I've always enjoyed teaching, uh, trying to explain things, uh, giving examples, writing demos of code and running them. So, so I always try to do a bit of that. So when I worked for Microsoft in Redmond, uh, when I lived in Seattle, I also was lucky to have an affiliate position at the University of Washington, and at the electrical engineering department, I taught a course on how to test VLSI chips.
+
+That was fabulous. I loved, uh, uh, uh, I loved doing that. You know, when I was at MSR Cambridge, I actually had a 20 percent appointment as a professor at the University of Birmingham, and, you know, gave some lectures there. A nice research group to hang out with. And I was a visiting lecturer at Imperial College.
+
+I'll rock up every now and then and talk to PhD students. I love that. And I especially love, you know, just talking to postdocs and giving just a different perspective on their project and their direction from their advisor, I think. They learn a little bit, I learn a little bit from them about what they're, uh, what they're doing.
+
+And then here in the Bay Area, you know, San Francisco Bay [01:02:00] Area where I was lucky to be connected up with, uh, the Lindsey Kuper crowd, uh, and teach a course in Verilog hardware design thing, uh, UC Santa Cruz, which was okay. I taught that course during the pandemic, so. My screen was a grid of black rectangles and the University of California says I'm not allowed to make the students turn their cameras on.
+
+So that was a bit of a dispiriting experience. When I was offered to do it again, uh, uh, I, uh, I declined it. It made me realize how much I love being in the room with the students and doing teaching as a kind of a two way kind of thing. And it didn't like, Teaching to an array of black, black voices. So yeah, it just gives me like lots of energy.
+
+I think I get, I think it was one of the sources of creative energy for me is going to these places, talking to the students, giving the talks, getting feedback, learning what other people are thinking and working on and what, uh, what excites them. I really miss the collegiate atmosphere of a university department.
+
+That's big. I miss the most from University of Glasgow. All the other research groups [01:03:00] banging into it would someone in the corridor. And having a chat about a related thing, all the great invited speakers coming in. I think that's a fabulous, very special thing. And I've never really experienced that, even in research labs.
+
+So I never really experienced that in industry. That's one thing I'm very jealous about from my academic colleagues. So I try, wherever I can, find an excuse to turn up at university and, uh, give a talk and hang out with some cool people. 
+
+**Adrian:** Can you, can you tell us your time management tips? How do you manage to do both?
+
+**Satnam:** Well, I mean, I, I don't do very much of these, of these things. So I, I mean, I taught a Verilog course, so that, you know, I think it was just one course that I taught. Uh, I thought when I taught half of it, it was somebody else taught the, uh, taught the, taught the, taught the other half. So, uh, I would just say that was like a giant amount of, uh, time commitment.
+
+And then for the visiting other people, that's, I always co locate that with some trip I'm doing anyway. Right. So if I'm going to a conference, uh, Uh, give me a talk. Uh, then [01:04:00] I'll tack that on. So on Monday and Tuesday, I gave a talk at a new computer architecture conference in London called REACH 2024. Uh, so I was in London.
+
+So I extended my visit by one day and I went to Imperial College. Yeah. I spoke to Ali Donaldson saying, Ali, do you want me to turn up and give a talk? And Ali said, okay. And he made, uh, uh, uh, uh, gave a talk. And then before I went to REACH, I stopped in with Chicago and gave a talk at Purdue. So I tried to.
+
+Tackle them on to other trips that I'm doing, uh, uh, doing anyway. So, uh, I mean, it definitely takes up a chunk of my time and my productivity at work is definitely lower as a result there, but I value it enough. I think I get enough out of it and it gives me enough kind of creative energy and inspiration for other things that I might tackle at work that I feel like it's worth, uh, it's worth doing.
+
+**Aws:** So, so you mentioned at the beginning that you were, you know, you, for a while you were a physics student and, you know, physics has a lot of kind of, uh, open existential questions, right? Like, you know, what, you know, the theory of [01:05:00] everything and the standard model and what have you. Um, is, is there such a thing in PL?
+
+And if so, like, what is it? Like, is that what attracted you to PL? That is, was there some like existential questions? 
+
+**Satnam:** Yeah, I'm not sure if I've, I've thought about it in that way, but I think there definitely is something about language, having a language to talk about the world, and having a language to model the world.
+
+And then when you have that model, it's interactive, it can do things, you can then, you can do experiments with that. And so that, I think it goes back to what I said at the beginning, where this wonderful synergy between functions, yeah, recursive functions, lazy evaluation, and how digital circuits can work.
+
+And that just seems like a magical thing to me. And some people use programming languages because they have to get their jobs done. When I talk to my friends who are systems researchers, they'll write in C or C\+\+ And it's just to get the job done because they have to run an experiment and get a graph and a chart and a program is, uh, it's just [01:06:00] like something you have to do, some side effect to get your, getting your job done.
+
+I think programs are beautiful. I view them in the same spectrum as literature and poetry or whatever, because they exist there to help us communicate ideas from one person's head to another person's head, from a person's head to a machine, to maybe another person's head. or whatever. And I kind of do, I'm not sure I entirely believe it, but there's a little bit of truth and beauty that I kind of really believe in.
+
+So I feel if you can have the right abstractions and mechanisms in your programs to then model something in the world in some way, you've kind of captured, you know, something kind of truthful, right? So that you've got 
+
+**Aws:** a universal language where everyone can understand it, agree to the semantics of it.
+
+**Satnam:** And so I, I just love programs. For how they are, for the, the Be. I I, I don't even care if you run them. They just look so beautiful. And that's what the, that's what I look kind of love about, kind of Haskell and, uh, you know, uh, these kind of lovely kind of types. And, uh, it's just, it's the, it's the aesthetics of [01:07:00] the, of the, of the, I I value the, the programs for themselves.
+
+**Aws:** Yeah. 
+
+And I guess because of that, you wanna build an FP Castle . Maybe tell our audience about this, uh. 
+
+**Satnam:** I have this, I have this, uh, dream of, uh, uh, well, A, hopefully Groq have enough money to then buy a castle in Scotland. What I want to do is I want to do something a Dagstuhl, but you know, but the scope is like a year or longer.
+
+And I want to invite people to just, to this remote castle, to come and hang out and do programming, do C do systems, uh, be, be a jazz pianist. whatever, have some paintings, whatever, uh, where people just are in a remote part of Scotland with beautiful scenery, you know, inspiring background, and you're not necessarily computer science, but people are there for an extended period of time interacting, uh, with each other, learning from each other, being inspired by each other, [01:08:00] and it could be through poetry.
+
+Could be through music, could be through, uh, uh, could be, I plan to do a lot of cooking. I will have a whiskey, we'll have a whiskey cellar and, uh, uh, cook lots of nice meals. I think that'd be quite nice to have a kind of a jamming session like that, uh, for a kind of. A bohemian jamming session lasting about a year.
+
+So that's FPCastle. and sign up. You could just create a PR in GitHub and send it to me. Oh, nice. Yeah. Okay. I'm going to sign up. Yeah. 
+
+**Adrian:** Yeah. Everyone listening is to go to fpcastle. com and sign up. 
+
+**Aws:** The rooms are running out.
+
+Should we talk about food? So you're well known to be a foodie. Is that, is that, I do you go with that term or is that 
+
+**Satnam:** I'm happy to say foodie. I mean, these are cookbooks and I've got more of them. Not, none of these, you may think they're computing books, but every single one of them is a cookbook.
+
+So I love food. I love, I love cooking and, uh, I think, uh, it's [01:09:00] just a wonderful way to interact with other, other, uh, other, uh, other people. I think, I mean, I, I got into cooking through, you know, someone I met at university who also used cooking to, as a, uh, a social, a social vehicle. Everyone, for relaxation, everyone seeks some kind of task that they can be totally absorbed in so they can relax from work and detach.
+
+And for me, it's like, Cooking, uh, try to cook a nice meal and inviting friends around and having a nice food and nice wine over a nice evening. So I do a lot of that. Uh, I cook, uh, do many different parts. I actually have a cooking log. The cooking log goes back decades. It's now a digital document I record, uh, who came for dinner, what I cooked, what worked, what didn't work.
+
+Who got on, who didn't get on, there's a separate secret document, which is the incompatibility matrix, which shows which guests are incompatible with each other, uh, other guests. So I take it kind of seriously and, uh, uh, and, uh, I get a lot, a lot of, it's one of the main ways I interact and socialize with other people.
+
+And when I go to conferences, I try and, uh, Get people [01:10:00] together and go out to nice, go to nice dinners because it's a nice informal way to get to know other people, interact and socialize with them. So yeah, it's become a big part of my, big part of my life and my identity, especially my identity in social media.
+
+**Aws:** Yeah. Yeah. So what is, uh, what is your favorite restaurant? So we can do my favorite 
+
+**Satnam:** restaurant. It's called it's in Glasgow. So my daughter, she's a final year computer Strathclyde. taught by many of my friends. And downstairs from her is a restaurant called Brett, which does just fabulous Scottish inspired food.
+
+I mean, it doesn't have a Michelin star or anything like that. Um, but it's just like really great produce, wonderful scallops. They cook beetroot amazingly. They'll do fantastic things of a mushroom and they have great organic wine selection. So it's just like informal setting. Gorgeous food happens to be just downstairs of my daughter's apartment, or maybe my daughter's apartment just happens to be upstairs of the restaurant.
+
+So I love that place a lot. So if you go to Scotland or you go to [01:11:00] Glasgow, I really recommend going to Brett. I mean, I can list plenty of Michelin star restaurants that I went to where I've had wonderful meals, and they're all fantastic as well. But I think it's always great when you can find something that isn't, you know, It doesn't have stars, but it's still really, that's still really good and a bit more informal because, because I don't need all the posh aspects that go with posh restaurants.
+
+**Adrian:** How about a favourite cookbook? Got one? 
+
+**Satnam:** Well, I have it here. It's called NOPI. And it's a cookbook of his restaurant called NOPI. I ate it on Wednesday night in London with my daughter. And it's my most used cookbook. You can see it's like falling. kind of falling apart. And it's like, if you come for a fancy dinner at my house, uh, there's a good chance I will, you know, cook out of this book, uh, for you.
+
+I love it. It's a lot of Ottolenghi books have kind of fairly straightforward recipes. This one has a warning at the front saying, um, make sure that you really are the kind of person that's up for cooking the recipes in this book, because they're all quite, a lot of them are quite technical and complicated, take [01:12:00] many, many days to do, but I've cooked here many recipes out there, uh, so it's always interesting when I eat out there, I was on Wednesday, I was at the restaurant, so I was getting things, you know, somewhat similar to what's in the book, so it's always interesting to see, did I get it right, or how different was it from the standard version, so I think that's fabulous stuff, fabulous cookbook, I love, I've been cooking for from a decade almost.
+
+**Aws:** And since you're Scottish, what's your favourite Scotch? 
+
+**Satnam:** Well, my favourite bottle is a Scotch called Octomore. And this bottle sadly is empty. And it's a very, very special bottle. So many people who drink whisky and into whisky, they will know that there's a brand of whisky called Octomore. And you can buy an Octomore today.
+
+But the Octomores you get today have really kind of diverged. So this is the, um, The first batch of Octomore that was ever made, and this bottle was given to me by a very good friend of mine, Rolf, and he bought Futures in the first batch of Octomores. He bought 12 bottles and he gave me one. [01:13:00] And this comes from distillery called Bruichladdich on Islay, which is known for its smoky whiskies like Lagavulin.
+
+Uh, uh, are big, uh uh, and, and, and what happened is someone bought this distiller and they looked at their stock, some of which was terrible. Someone said, okay. And they tried to salvage some whiskeys and blend with other whiskeys to try other barrels to kind of reboot the whiskey and kind re rebrand it and Octomore.
+
+One of the first things of that project that we did, and it was just absolutely fabulous. I remember my first sip. I remember where I was sitting, where I had it. It was absolutely mind blowingly excellent. And again, very much a very smoky peaty whisky, but just absolutely exquisite in its taste. It's gone now.
+
+I don't think you get any more of that V1 Octomore. So now we're into V, I can't remember where it is. The current one, the current Octomore is a very, very. a stringent, very, very smoky, very, you know, 240 parts per million, [01:14:00] uh, uh, still very, very good, but I don't think they have the kind of delicacy and balance of the, of this original Octomore.
+
+So this was, I think, the best whisky I've ever had. Sadly, sadly gone.
+
+**Adrian:** The current Octomore seems to be 14. 2 for what it's worth. 
+
+**Satnam:** You're right. 
+
+**Adrian:** So beyond those recommendations, what advice do you have for younger researchers than you?
+
+To keep it concrete, let's say to graduate students and to, uh, undergraduates, but what advice would you give to them? 
+
+**Satnam:** Yeah, so maybe I'll just do a little bit of a repeat of what I said, uh, earlier, which is to, uh, have a broader view of what you are doing. Like when you do a PhD, things are very narrow and they're very laser focused.
+
+And often you can kind of think, well, why am I doing this esoteric thing with this weird type system or whatever? What good can ever come out of this? Anyone ever, uh, care. But what's really happening is you'll be, you're learning how to think, you're [01:15:00] learning how to read, uh, similar information and then, uh, uh, categorize information and compare one thing to another, uh, do an evaluation and judgment, then express yourself by trying to write a paper or evaluation or give a talk to someone else and then try to collaborate with someone else to try and solve this bit of the problem.
+
+And as you, although you're doing these things, For a particular thing, you're really sharpening these tools you have to be a general problem solver, and you're just developing a toolkit for thought and problem solving, which was wide applicability across all computers, and beyond computers, probably your personal life and many other things that you have to do in the world as well, so I would say kind of hang on to, hang on to that, because, uh, uh, I know, you know, from my own personal experience, when you're really deep down, uh, very deep in one esoteric thing, it can be despiriting.
+
+You think, why am I doing this? What's, why does anyone actually, actually care? Think about the second and third order effects of what's actually, actually happening. [01:16:00] And I, I mean, I would say, I would, I would cite myself as an example, but right, I did all this kind of esoteric stuff, right, with Miranda and every non standard interpretation and lattices and things like that.
+
+But yet, it would prove useful in quite a diverse area, areas of computing science. 
+
+**Aws:** Wonderful. Well, thank you so much for taking the time. 
+
+**Adrian:** Yeah, thank you, Satnam. This is really wonderful. I really appreciate it. 
+
+**Satnam:** so much for inviting me. It's been good fun. 
+
+
+
