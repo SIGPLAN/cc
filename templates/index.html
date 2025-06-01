@@ -3,7 +3,7 @@
 {% block main %}
 {{ section.content | safe }}
 {% set episodes = get_section(path="episodes/_index.md") %}
-{% for episode in episodes.pages %}
+{% for episode in episodes.pages | sort(attribute="extra.episode") | reverse %}
 <article>
   {{ macros::ep_title(episode=episode) }}
   {{ episode.summary | safe }}

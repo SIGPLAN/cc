@@ -2,7 +2,7 @@
 title = "Satnam Singh"
 date = 2025-05-29
 [extra]
-episode = 1
+episode = 2
 youtube_id = "_g5fA9Cy6KU"
 audio = "cc02.mp3"
 +++
