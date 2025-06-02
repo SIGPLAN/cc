@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% import "macros.html" as macros %}
 {% block main %}
+{{ macros::podcast_buttons(rss=get_url(path="rss.xml", trailing_slash=false), id=config.extra.itunes_id) }}
 {{ macros::ep_title(episode=page) }}
 
 {% if page.extra.audio %}
