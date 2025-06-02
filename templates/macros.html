@@ -5,3 +5,20 @@
   <time datetime="{{ episode.date }}">{{ episode.date | date(format="%B %e, %Y") }}</time>
 </h1>
 {% endmacro ep_title %}
+
+{% macro podcast_buttons(rss, id) %}
+<nav class="podcast">
+  <a href="https://podcasts.apple.com/us/podcast/id{{ id }}">
+    <img src="{{ get_url(path="badge/apple.svg", trailing_slash=false) | safe }}">
+  </a>
+  <a href="overcast://x-callback-url/add?url={{ rss }}">
+    <img src="{{ get_url(path="badge/overcast.svg", trailing_slash=false) | safe }}">
+  </a>
+  <a href="https://castro.fm/itunes/{{ id }}">
+    <img src="{{ get_url(path="badge/castro.svg", trailing_slash=false) | safe }}">
+  </a>
+  <a href="{{ rss | safe }}">
+    <img src="{{ get_url(path="badge/rss.svg", trailing_slash=false) | safe }}">
+  </a>
+</nav>
+{% endmacro podcast_buttons %}

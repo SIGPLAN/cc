@@ -2,6 +2,7 @@
 {% import "macros.html" as macros %}
 {% block main %}
 {{ section.content | safe }}
+{{ macros::podcast_buttons(rss=get_url(path="rss.xml", trailing_slash=false), id=config.extra.itunes_id) }}
 {% set episodes = get_section(path="episodes/_index.md") %}
 {% for episode in episodes.pages | sort(attribute="extra.episode") | reverse %}
 <article>
